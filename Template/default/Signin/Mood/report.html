@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>心情日记</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/MoodDiary/css/index.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/MoodDiary/css/write.css">
+    <script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.1.js"></script>
+    <script>
+        _kd.remAdjust()
+    </script>
+</head>
+<body>
+    <div id="app">
+	    <div class="diary-list">
+	            <!-- cards wrapper -->
+	            <div id="allDiaryList" class="diary-list__container">
+	                <!-- a card -->
+	                <div class="diary-list__card" v-for="item in reportList">
+	                    <div class="diary-list__card-hd">
+	                        <img class="user-head" :src="item.headimgurl || 'http://static.pocketuniversity.cn/kdgx/lib/kdImages/nohead.jpg'" alt="头像">
+	                        <div class="card-info">
+	                            <p class="username" v-text="item.nickname || '某同学'"></p>
+	                            <p class="uploadtime" v-text="item.create_time|timeline"></p>
+	                        </div>
+	                        <p class="days" v-text="item.SigninCount + '天'"></p>
+
+	                        <img v-if="item.mood==1 || item.mood==0" class="mood" :class="['mood', {'mood-show': item.mood==1 || item.mood==0}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm_black.png">
+	                        <img v-if="item.mood==2" class="mood" :class="['mood', {'mood-show': item.mood==2}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy_black.png">
+	                        <img v-if="item.mood==3" class="mood" :class="['mood', {'mood-show': item.mood==3}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy_black.png">
+	                        <img v-if="item.mood==4" class="mood" :class="['mood', {'mood-show': item.mood==4}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy_black.png">
+	                    </div>
+
+	                    <div class="diary-list__card-content">
+	                        <img :src="item.content_img" v-if="item.content_img">
+	                        <p v-text="item.content"></p>
+	                    </div>
+
+	                    <div class="diary-list__card-ft">
+	                        <p class="diary-list__btn_delete"><span data-id="{{item.mood_id}}"  @click="operateList($event, 'delete', $index)">删除</span></p>
+                            <p class="diary-list__btn_delete"><span data-id="{{item.mood_id}}"  @click="ignore">忽略</span></p>
+	                    </div>
+	                </div>
+	                <!-- a card end -->
+	            </div>
+	            <!-- cards wrapper end -->
+                <style>
+                    .diary-list__btn_delete {
+                        text-align: center;
+                    }
+                </style>
+    </div>
+	</div>
+    <script src="//cdn.bootcss.com/vue/1.0.28/vue.min.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.1.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/filter.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                	reportList: []
+                }
+            },
+            ready: function () {
+                this.getList()
+            },
+            methods: {
+                getList: function () {
+                    _kd.mAjax({
+                        method: 'GET',
+                        url: 'http://www.pocketuniversity.cn/index.php/signin/mood/reportList',
+                        data: {},
+                        success: function (res) {
+                        	this.reportList = res.msg.reverse()
+                        }.bind(this)
+                    })
+                },
+                operateList: function (e, type, index) {
+                	if(!e.currentTarget.dataset.id) {
+                		return
+                	}
+		            _kd.mAjax({
+		                method: 'POST',
+		                url: 'http://www.pocketuniversity.cn/index.php/signin/mood/updateMood',
+		                data: {
+	                        id: e.currentTarget.dataset.id,
+	                        is_delete: 1
+                    	},
+		                success: function (res) {
+		                	if(res.error != 0) {
+		                		return alert(res.msg)
+		                	}
+		                    alert('删除成功')
+                            this.getList()
+		                }.bind(this)
+	            	})
+                },
+                ignore: function (e) {
+                    if(!e.currentTarget.dataset.id) {
+                		return
+                	}
+                    _kd.mAjax({
+		                method: 'POST',
+		                url: 'http://www.pocketuniversity.cn/index.php/signin/mood/recycMood',
+		                data: {
+	                        mood_id: e.currentTarget.dataset.id
+                    	},
+		                success: function (res) {
+		                	if(res.error != 0) {
+		                		return alert(res.msg)
+		                	}
+		                    alert('操作成功')
+                            this.getList()
+		                }.bind(this)
+	            	})
+                }
+            }
+        })
+    </script>
+</body>
+</html>

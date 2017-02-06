@@ -1,0 +1,96 @@
+<?php
+namespace Partner\Controller;
+use \Think\Controller;
+
+// 卖室友订单支付回调
+
+class ReceiveController extends Controller{
+
+	
+	public function notify(){
+		// if(empty($_GET['test']))exit();
+		$payinfo = file_get_contents('php://input');
+		$msg = FromXml($payinfo);
+		// $msg = array(
+		//     'appid' => 'wx34f6baf7794f38b1',
+		//     'attach' => 'gh_c75321282c18',
+		//     'bank_type' => 'CFT',
+		//     'cash_fee' => 19,
+		//     'fee_type' => 'CNY',
+		//     'is_subscribe' => 'Y',
+		//     'mch_id' => '1264021501',
+		//     'nonce_str' => 'capy5ulp5coi4ap3kza6pioad8cgcgtp',
+		//     'openid' => 'oDDzCt4iFHZjUc1qClCHIvm8UWGg',	
+		//     'out_trade_no' => '126402150120161229134255',
+		//     'result_code' => 'SUCCESS',
+		//     'return_code' => 'SUCCESS',
+		//     'sign' => '66366A1B06FCAFF10CFF8A62B7EF935D',
+		//     'time_end' => '20161223162727',
+		//     'total_fee' => 19,
+		//     'trade_type' => 'JSAPI',
+		//     'transaction_id' => '4008362001201612291342556916',
+		// );
+		$return ='<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+		if(empty($msg) || $msg['return_code']=='SUCCESS'){
+			if(M('kdgx_order')->where(array('transaction_id'=>$msg['transaction_id']))->getField('order_id')){
+				echo $return;exit();
+			}
+			$uid = M('kdgx_order')->where(array('out_trade_no'=>$msg['out_trade_no']))->getField('uid');
+			$order = $msg;
+			unset($order['openid']);
+			$order['take_fee'] = 0;
+			if($msg['result_code']=='SUCCESS'){
+				$order['order_state'] = '1';
+				if($uid=='98047' || $uid=='94302'){
+				   $order['total_fee'] *= 100;
+				}
+				if($order['total_fee']>=3900){
+					$addtime = 7776000;
+					$order['take_fee'] = 2000;
+				}elseif ($order['total_fee']>=2900) {
+					$addtime = 5184000;
+					$order['take_fee'] = 1500;
+				}elseif($order['total_fee']>=1900){
+					$order['take_fee'] = 1000;
+					$addtime = 2592000;
+				}else{
+					$order['take_fee'] = 50;
+					if(M('kdgx_partner_limits')->where(array('uid'=>$uid))->find()){
+						M('kdgx_partner_limits')->where(array('uid'=>$uid))->setInc('production',1);
+					}else{
+						M('kdgx_partner_limits')->data(array('uid'=>$uid,'production'=>1))->add();
+					}
+					$order['uid']=$uid;
+					$order['time_end'] = time();
+					$order['from_media']=$msg['attach'];
+					if(M('kdgx_order')->where(array('out_trade_no'=>$msg['out_trade_no']))->save($order)){
+						echo $return;exit();
+					}
+					exit();
+				}
+				if($vip_id = M('kdgx_vips')->field('vip_id,end_time')->where("uid=$uid")->find()){
+					if($vip_id['end_time']<time()){
+						$save = array(
+							'vip_id' => $vip_id['vip_id'],
+							'open_time' => time(),
+							'end_time' => time()+$addtime
+							);
+					}else{
+						$save = array(
+							'vip_id' => $vip_id['vip_id'],
+							'end_time' => $vip_id['end_time']+$addtime
+							);
+					}
+					M('kdgx_vips')->save($save);
+				}else{
+					M('kdgx_vips')->add(array('uid'=>$uid,'open_time'=>time(),'end_time'=>time()+$addtime));
+				}
+			}
+			$order['time_end'] = time();
+			$order['from_media']=$msg['attach'];
+			if(M('kdgx_order')->where(array('out_trade_no'=>$msg['out_trade_no']))->save($order)){
+				echo $return;exit();
+			}
+		}
+	}
+}

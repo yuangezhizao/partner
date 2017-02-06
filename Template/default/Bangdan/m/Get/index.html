@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Sure" email="Sure@tuiyilin.com">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<title>口袋榜单日数据</title>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body{
+			font-family: "微软雅黑";
+		}
+		table td,table th{
+			text-align: center;
+		}
+		form{
+			width: 500px;
+			margin:0 auto;
+			padding:20px 0; 
+		}
+		table tr th{
+			font-weight: normal;
+		}
+		.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+			vertical-align:middle;
+		}
+	</style>
+</head>
+<body>
+	<form action="" method="post">
+		<span>请输入年月</span>
+		<input type="text" name="m" placeholder="月"/>
+		<input type="text" name="d" placeholder="日"/>
+		<input type="submit" value="查看"/>
+	</form>
+	<table class="table table-bordered" align="center">
+		<tr class="row">
+			<td class="success">公众号ID</td>
+			<td class="warning">公众号名称</td>
+			<td class="info">日榜指数</td>
+			<td class="success">周榜指数</td>
+			<td class="warning">月榜指数</td>
+			<td class="info">日期</td>
+		</tr>
+		<foreach name="arr" item="v" key="k">
+		<tr class="row">
+			<td>{$v.num}</td>
+			<td>{$v.name}</td>
+			<td>{$v.score}</td>
+			<td>{$v.week}</td>
+			<td>{$v.month}</td>
+			<td>{$v.time}</td>
+		</tr>
+		</foreach>
+	</table>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+

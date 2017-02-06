@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Sure" email="Sure@tuiyilin.com">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<title>榜单中心</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="__PUBLIC__/css/ranking.css">
+</head>
+<body>
+	<div id="loading">
+		<img src="__PUBLIC__/img/loading.gif">
+		<p>正在加载...</p>
+	</div>
+
+	<header>
+		<h3>口袋高校指数榜</h3>
+	</header>
+	<main>
+		<nav id="date_type" class="nav nav-date" >
+			<!-- <label>'
+				<p>月榜</p>
+				<select id="month_list">
+					<option value="1">09月整月</option>
+				</select>
+				<span></span>
+			</label>
+			<label>
+				<p>周榜</p>
+				<select id="week_list">
+					<option value="1">09月20日---9月27日</option>
+				</select>
+				<span></span>
+			</label>
+			<label class="nav-date-choiced">
+				<p>日榜</p>
+				<select id="day_list">
+					<option value="1">9月20日当日</option>
+				</select>
+				<span></span>
+			</label> -->
+		</nav>
+		<div class="date_val"></div>
+		<!-- <nav id="list_type" class="nav nav-type">
+			<div id="type_all">
+				<span>
+					所有
+				</span>
+			</div>
+			<div id="type_pocket" class="nav-type-choiced">
+				<span>
+					口袋高校榜
+				</span>
+			</div>
+		</nav> -->
+		<section class="content">
+			<table class="table table-bordered">
+		      <thead>
+		        <tr>
+		          <th>排 名</th>
+		          <th>公 众 号 名 称</th>
+		          <th>口 袋 指 数</th>
+		        </tr>
+		      </thead>
+		      <tbody id="content_body">
+				
+
+				<!-- 我的 -->
+		        <!-- <tr class="is-me-data">
+		          <td><span class="num">1</span></td>
+		          <td class="excellent">
+		          	<div class="img">
+		          		<img src="http://open.weixin.qq.com/qr/code/?username=pockethdu" alt="">
+		          	</div>
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td> 
+		          <td><span>255</span></td>
+		        </tr> -->
+
+				<!-- 第一名 -->
+		        <!-- <tr>
+		          <td><span class="num num-first">1</span></td>
+		          <td class="excellent">
+		          	<div class="img">
+		          		<img src="http://open.weixin.qq.com/qr/code/?username=pockethdu" alt="">
+		          	</div>
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span class="exp-first">255</span></td>
+		        </tr> -->
+
+		        <!-- 第二名 -->
+		        <!-- <tr>
+		          <td><span class="num num-second">1</span></td>
+		            <td class="excellent">
+		          	<div class="img">
+		          		<img src="http://open.weixin.qq.com/qr/code/?username=pockethdu" alt="">
+		          	</div>
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span class="exp-second">255</span></td>
+		        </tr> -->
+
+		        <!-- 第三名 -->
+		      <!--   <tr>
+		          <td><span class="num num-thirdly">1</span></td>
+		          <td class="excellent">
+		          	<div class="img" >
+		          		<img src="http://open.weixin.qq.com/qr/code/?username=pockethdu" alt="">
+		          	</div>
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td ><span class="exp-thirdly">255</span></td>
+		        </tr> -->
+
+		        <!-- 普通 -->
+		      <!--   <tr>
+		          <td><span class="num">1</span></td>
+		          <td class="common">
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span >255</span></td>
+		        </tr>
+		        <tr>
+		          <td><span class="num">1</span></td>
+		          <td class="common">
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span>255</span></td>
+		        </tr>
+		        <tr>
+		          <td><span class="num">1</span></td>
+		          <td class="common">
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span>255</span></td>
+		        </tr>
+		        <tr>
+		          <td><span class="num">1</span></td>
+		          <td class="common">
+		          	<span>口袋师大助手</span>
+		          	<small>pocket</small>
+		          </td>
+		          <td><span>255</span></td>
+		        </tr> -->
+		       
+		      </tbody>
+		    </table>
+		</section>
+	</main>
+	<div class="footer">
+		<p>@版权归口袋高校所有</p>
+	</div>
+	<div style="height: 50px;"></div>
+	<footer>
+    	<a href="__MODULE__/Index/index"><span>数据中心</span></a><a href="__MODULE__/Ranking/index"><span class="choiced">榜单排行</span></a><a href="__MODULE__/News/index"><span >消息通知</span></a>
+    </footer>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+    <script>
+    	//榜单ajax请求链接
+    	var openUrl = "__URL__/ranking";
+
+    	var dateValUrl = "__URL__/date";
+    </script>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+    <script src="__PUBLIC__/js/ranking.js"></script>
+</body>
+</html>

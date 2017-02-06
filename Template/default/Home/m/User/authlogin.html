@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<title>身份认证</title>
+	<style>
+	    * {
+	    	box-sizing: border-box;
+	    }
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			color: black;
+			font-family: 'Heiti SC';
+		}
+		body {
+			padding: 3px 30px;
+		}
+
+		.logo {
+			display: block;
+			width: 70px;
+			margin: 10px auto 10px auto;
+		}
+		.name {
+			width: 100%;
+			text-align: center;
+			font-size: 20px;
+			font-weight: 700;
+		    margin: 10px 0;
+		}
+		.line {
+			width: 100%;
+			height: 1px;
+			background-color: #DCDDDD;
+		}
+		.kdgx-qrcode{
+			width: 60%;
+			display: block;
+			margin: 15px auto;
+		}
+		.auth-text {
+		    width: 100%;
+		    font-size: 15px;
+		    font-weight: 700;
+		    text-align: center;
+		    padding: 0 10px;
+		    margin: 10px 0;
+		}
+		.tip {
+			width: 100%;
+			text-align: center;
+			color: #656565;
+			font-size: 13px;
+		}
+		.button {
+		    width: 90%;
+		    height: 40px;
+		    display: block;
+		    margin: 0 auto;
+		    margin-top: 30px;
+			border-radius: 4px;
+			background-color: #DCDDDD;
+			line-height: 40px;
+			text-align: center;
+			font-size: 18px;
+			color:white;
+			text-decoration: none;
+
+		}
+		.footer {
+		    position: absolute;
+		    bottom: 0px;
+		    width: 100%;
+		    text-align: center;
+		    font-size: 12px;
+		    box-sizing: border-box;
+		    left: 50%;
+		    transform: translate(-50%, 0);
+		}
+	</style>
+</head>
+<body>
+	<img class="logo" src="http://static.pocketuniversity.cn/kdgx/authlogin/images/logo.png">
+	<p class="name">口袋高校助手</p>
+	<div class="line"></div>
+	<!-- <h3 class="auth-title">身份认证</h3> -->
+	<!-- <p class="auth-text">
+		亲爱的同学，口袋的身份认证系统已运行超过两年时间，为了保障同学们的信息安全以及更好的使用体验，我们对身份认证机制进行了升级
+	</p> -->
+	<img class="kdgx-qrcode" src="http://www.pocketuniversity.cn/index.php/home/wechat/getQRcode?type=3&scene={$id}" alt="">
+	<p class="auth-text">为了更好的体验，和信息安全我们升级了身份认证机制</p>
+	<p class="tip">
+	<!-- 请长按上方二维码，识别关注【口袋高校助手】完成身份认证。 -->
+	请长按识别二维码，关注后继续操作
+	</p>
+	<a href="javascript:WeixinJSBridge.call('closeWindow')" class="button">退出登录</a>
+	<p class="footer">Copyright &copy; 2014-2016 pocketuniversity.cn</p>
+</body>
+</html>

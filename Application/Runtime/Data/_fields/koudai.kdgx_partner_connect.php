@@ -1,0 +1,1 @@
+a:8:{i:0;s:10:"connect_id";i:1;s:5:"state";i:2;s:4:"type";i:3;s:6:"medias";i:4;s:4:"time";i:5;s:15:"lastRequestTime";s:3:"_pk";s:10:"connect_id";s:5:"_type";a:6:{s:10:"connect_id";s:7:"int(16)";s:5:"state";s:13:"enum('0','1')";s:4:"type";s:21:"enum('1','2','3','4')";s:6:"medias";s:12:"varchar(256)";s:4:"time";s:7:"int(11)";s:15:"lastRequestTime";s:7:"int(11)";}}

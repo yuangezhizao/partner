@@ -1,0 +1,273 @@
+<?php 
+namespace Partner\Controller;
+use Common\Controller\BaseController;
+/**
+ * 分享页面管理
+ * 
+ */
+class ShareController extends BaseController{
+	private $js1 = <<<EOF
+
+	<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	</head>
+	<body>
+	<div class="js_dialog" id="iosDialog2">
+      <div class="weui-mask"></div>
+      <div class="weui-dialog">
+          <div class="weui-dialog__bd">
+EOF;
+
+	private $js2 = <<<FOE
+
+</div>
+          <div class="weui-dialog__ft">
+              <a href="javascript:WeixinJSBridge.call('closeWindow');" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+          </div>
+      </div>
+  </div>
+  <style media="screen">
+  .weui-mask {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .weui-dialog__bd:first-child {
+    padding: 2.7em 20px 1.7em;
+    color: #353535;
+  }
+  .weui-dialog__bd {
+    padding: 0 1.6em 0.8em;
+    min-height: 40px;
+    font-size: 15px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #999999;
+  }
+  .weui-dialog__ft {
+    position: relative;
+    line-height: 48px;
+    font-size: 18px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+  }
+  @media screen and (min-width: 1024px){
+  .weui-dialog {
+      width: 35%;
+  }
+  }
+  .weui-dialog {
+      position: fixed;
+      z-index: 5000;
+      width: 80%;
+      max-width: 300px;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      background-color: #FFFFFF;
+      text-align: center;
+      border-radius: 3px;
+      overflow: hidden;
+  }
+  .weui-dialog__btn_primary {
+    color: #0BB20C;
+  }
+  .weui-dialog__btn {
+    display: block;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #3CC51F;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+  }
+  </style>
+  </body>
+FOE;
+
+	public function look(){
+		$formid = I('get.id');
+		$id = uiddecode($formid); 
+		$uid = decrypt_url(cookie('uid'),C("KEY_URL"));
+		if(empty($id) || empty($uid)){
+			$error = "错误码:10001,请联系小口袋微信号EasyPocket";
+			echo $this->js1 . $error . $this->js2;
+			return;
+		}
+		$partner = M('kdgx_partner')->where(array('id'=>$id,'is_delete'=>'0'))->find();
+		if(empty($partner['id'])){
+			$error = "该联系方式已被删除!*.*!";
+			echo $this->js1 . $error . $this->js2;
+			return;
+		}
+
+		// 判断用户权限与权限更新
+		$flag = $this->checkLimit($uid,$id);		
+		$limitdata  = array(
+			'uid'	=>	$uid,
+			'formid'=>	'#'. $id .',',
+			'today'	=>	strtotime(date('Y-m-d')),	//今天凌晨的时间戳
+		);
+// $flag = 0;		//开关每日限制
+		switch ($flag) {
+			case '0':#用户第一次写入
+				//写入用户限制
+				if($limitdata = M('kdgx_partner_limit')->create($limitdata)){
+					M('kdgx_partner_limit')->data($limitdata)->add();
+					M('kdgx_partner')->where(array('id'=>$id))->setInc('times',1);
+				}
+				break;
+			case '2':
+				//更新用户限制
+				unset($limitdata['formid']);
+				$oldformid = M('kdgx_partner_limit')->field('formid')->where($limitdata)->find();
+				$formid = $oldformid['formid'] . $id.',';
+				if(M('kdgx_partner_limit')->where($limitdata)->data(array('formid'=>$formid))->save()){
+					M('kdgx_partner_limit')->where($limitdata)->setInc('times',1);
+					unset($limitdata['today']);
+					M('kdgx_partner')->where(array('id'=>$id))->setInc('times',1);
+				}
+				break;
+			case '4':
+				$error = "你今天已经要过很多联系方式了,不要太花心哦!^.^!";
+				echo $this->js1 . $error . $this->js2;
+				return;
+			case '5':
+				// '权限系统错误';
+				$error = ".|错误码:10002,请联系小口袋微信号EasyPocket";
+				echo $this->js1 . $error . $this->js2;
+				return;
+			case '1':
+			case '3':
+			case '6':
+			case '7':
+				break;
+			default:
+				// echo '写入系统错误';
+				$error = "错误码:10003,请联系小口袋微信号EasyPocket";
+				echo $this->js1 . $error . $this->js2;
+				return;
+		}
+
+		// 分类联系方式
+		switch ($partner['contype']) {
+			case '1':
+				$partner['contype'] = '手机';
+				break;
+			case '2':
+				$partner['contype'] = '微信';
+				break;
+			case '3':
+				$partner['contype'] = 'QQ';
+				break;
+		}
+
+		// 发送通知消息
+		if($flag=='0' || $flag=='2'){
+			$partner['times']++;		
+			$array_nick = M('kddx_user_info')->field('nick')->where(array('uid'=>$uid))->find();
+			$from = '/index.php/Partner/partner/History';
+			$senddata = array(
+				'first' => '『卖室友』动态有了更新',
+				'uid' 	=> $partner['uid'],
+				'keyword1'=> $array_nick['nick'].'索要了您的联系方式',
+				'keyword2'=>'当前被索要联系方式'.$partner['times'].'次',
+				'remark' => '点击查看详情',
+				'msgType' => '卖室友通知',
+				'type'	=> '2',
+				'url' => 'http://'.C("WEB_SITE").'/index.php/Home/User/login?from='.urlencode($from),
+				);
+			$url="http://www.pocketuniversity.cn/index.php/home/Wechat/sendTemplate";
+			$response =  requestPost($url,$senddata);
+			// -----------------------统计买室友响应请求----------------------------
+	        $collect = new \Org\Util\DataCollect();
+	        $collect->CollectResponse('买室友',$uid,cookie('media_id'));
+			if($response.errcode != 0){
+				file_put_contents('./Logs/test.log', date('Y-m-d H:i:m').'|'.$flag.'|'.print_r($response,true),FILE_APPEND);
+			}
+		}
+		// -----------------------统计卖室友响应请求----------------------------
+        $collect = new \Org\Util\DataCollect();
+        $collect->CollectResponse('室友信息页',$uid,cookie('media_id'));
+
+		// 渲染视图 
+		$partner['photo_src'] = 'http://'.C("CDN_SITE") .'/'. $partner['photo_src'];
+		if (!empty($partners['age']))
+		$partner['age'] = date('y年n月',strtotime($partner['age']));
+		$this->assign('data',$partner);
+		$this->display('Share/look');
+	}
+	/**
+	 * 检查用户是否有写入权限
+	 * @param  [type] $uid 用户id
+	 * @param  用户索要对象的formid
+	 * @return [type] 返回用户写入权限的标志:0:还没有写入过;1:写入过1次;2:写入过2次;3:错误!
+	 */
+	private function checkLimit($uid,$formid){
+		$time = strtotime(date('Y-m-d'));
+		$res = M('kdgx_partner')->where(array('uid'=>$uid,'id'=>$formid))->find();
+		if(!empty($res['id'])){
+			return 6;	// 查看自己卖的对象信息类型
+		}
+		$ishave = M('kdgx_partner_limit')->where(array('uid'=>$uid))
+		->where('formid like "#'.$formid.',%" or formid like "%,'.$formid.',%"')->find();
+		// echo M('kdgx_partner_limit')->getLastSql();
+		if(!empty($ishave['id'])){
+			return 7;  //  查看自己曾经已经要过的对象
+		}
+		$result = M('kdgx_partner_limit')->where(array('uid'=>$uid,'today'=>$time))->find();
+		if(empty($result)){
+			return 0;	// 0类型
+		}else{
+			switch ($result['times']) {
+				case '1':
+					if(strpos($result['formid'],$formid)){
+						return 1;	// 1+old类型
+					}else{
+						return 2;	// 1+new类型
+					}
+				case '2':
+					if(strpos($result['formid'], $formid)){
+						return 3;	// >1 +old类型
+					}else{
+						return 4;	// >1 +new类型
+					}
+				case '3':
+					if(strpos($result['formid'], $formid)){
+						return 3;	// >2 +old类型
+					}else{
+						return 4;	// >2 +new类型
+					}
+				default:
+					return 5;		// 系统错误
+			}
+		}
+	}
+	/**
+	 * 加载分享页视图
+	 */
+	public function Share(){
+		$partner = M('kdgx_partner')->where(array('id'=>uiddecode($_GET['formid']),'is_delete'=>'0'))->find();
+		if(empty($partner['id'])){
+			$error = "该联系方式已被删除!*.*!";
+			echo $this->js1 . $error . $this->js2;
+			return;
+		}
+		// -----------------------统计从分享响应请求----------------------------
+        $collect = new \Org\Util\DataCollect();
+        $collect->CollectResponse('获取分享',0,cookie('media_id')|0);
+
+		cookie('media_id',null);
+		cookie('media_id',$partner['media_id']);
+		$this->display('Share/partner');
+	}
+
+}

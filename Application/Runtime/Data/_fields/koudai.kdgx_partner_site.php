@@ -1,0 +1,1 @@
+a:7:{i:0;s:2:"id";i:1;s:8:"media_id";i:2;s:9:"school_id";i:3;s:7:"keyword";i:4;s:11:"permissions";s:3:"_pk";s:2:"id";s:5:"_type";a:5:{s:2:"id";s:6:"int(8)";s:8:"media_id";s:11:"varchar(20)";s:9:"school_id";s:6:"int(8)";s:7:"keyword";s:11:"varchar(32)";s:11:"permissions";s:11:"smallint(4)";}}

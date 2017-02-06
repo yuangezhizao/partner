@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>运营审核界面</title>
+<style>
+*{
+	font-size: 25px;
+	font-family: 微软雅黑;
+}
+</style>
+</head>
+<body>
+<h1 align="center" style="font-size:2em;">运营审核管理</h1>
+	<table width="100%"   align="center">
+		<tr height="50px">
+			<th style="width:80px;">口袋账号</th>
+			<th style="width:80px;">姓名</th>
+			<th style="width:80px;">公众号ID</th>
+			<th style="width:80px;">公众号名称</th>
+			<th style="width:80px;">运营管理</th>
+			<th style="width:80px;">权限审核</th>
+			<th style="width:80px">
+				<a href="__URL__/old_data"><button>数据入库</button></a><br/>
+			</th>
+		</tr>
+		<foreach name="arr" item="v">
+		<form action="Check/check" method="post">
+		<tr align='center' height="50px">
+			<td>{$v.uid}</td>
+			<td>{$v.name}</td>
+			<td>{$v.public_num}</td>
+			<td>{$v.public_name}</td>
+			<td>
+				<select name="lead">
+					<if condition="$v.lead eq 1" >
+						<option value="1" selected="selected" style="color:#5CF959;">YES</option>
+						<option value="0" style="color:red;">NO</option>
+					<elseif condition="$v.lead eq 0"/>
+						<option value="1" style="color:#5CF959;">YES</option>
+						<option value="0" selected="selected"style="color:red;">NO</option>
+					</if>
+				</select>
+			</td>
+			<td>
+				<select name="state" >
+					<if condition="$v.state eq 0" >
+						<option value="0" selected="selected" style="color:red;">未审核</option>
+						<option value="1" style="color:#5CF959;">运营者</option>
+						<option value="2" style="color:#FEC88A">管理员</option>
+					<elseif condition="$v.state eq 1"/>
+						<option value="0" style="color:red;">未审核</option>
+						<option value="1" style="color:#5CF959;" selected="selected">运营者</option>
+						<option value="2" style="color:#FEC88A">管理员</option>
+					<elseif condition="$v.state eq 2"/>
+						<option value="0" style="color:red;">未审核</option>
+						<option value="1" style="color:#5CF959;">运营者</option>
+						<option value="2" style="color:#FEC88A"selected="selected">管理员</option>
+					</if>
+				</select>
+			</td>
+			<td>
+				<input type="hidden" name="uid" value="{$v.uid}">
+				<input type="submit" value="修改">
+			</td>
+		</tr>
+		</form>
+		</foreach>
+
+	</table>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+</html>

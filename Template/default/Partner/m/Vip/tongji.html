@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> -->
+    <title>卖室友会员计划收益统计</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  </head>
+  <body>
+    <h2>卖室友会员计划收益统计</h2>
+    <table class="hello table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>公众号名称</th>
+        <th>公众号media_id</th>
+        <th>公众号运营者</th>
+        <th>公众号联系电话</th>
+        <th>公众号总消费</th>
+        <th>公众号总收益</th>
+        <th>公众号消费次数</th>
+        <th>公众号消费人次</th>
+        <th>当前是否开启</th>
+      </tr>
+    </thead>
+    <tbody>
+    <foreach name="data" item="item">
+      <tr class="info">
+        <td>{$item['public_name']}</td>
+        <td>{$item['from_media']}</td>
+        <td>{$item['name']}</td>
+        <td>{$item['phone']}</td>
+        <td>{$item['cash_fee']}</td>
+        <td>{$item['take_fee']}</td>
+        <td>{$item['count']}</td>
+        <td>{$item['precount']}</td>
+        <if condition="$item['openvip'] eq 1">
+        <td>是</td>
+        <else />
+        <td><p style="color:red">否</p></td>
+        </if>
+      </tr>
+    </tbody>
+    </foreach>
+    </table>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>

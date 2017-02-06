@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sure" email="Sure@tuiyilin.com">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>四六级管家</title>
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/lib/weui.min.css">
+    <style>
+      *{
+        margin:0;
+        padding:0;
+      }
+      body{
+        font-family: "微软雅黑";
+        background-color: #f8f8f8;
+      }
+      h1,h2,h3,h4,h5{
+        font-weight: normal;
+      }
+      header{
+        padding-top: 30px;
+      }
+      header .page__title{
+        text-align: center;
+        color: rgba(4,190,1,1);
+      }
+      header .page__desc{
+        font-size: .8rem;
+        text-align: center;
+        /*color: rgba(0,0,0,.6);*/
+        color: rgba(16,174,255,1);
+      }
+      .info .weui-cell{
+        background-color: #fff;
+      }
+      .tips .weui-media-box__desc{
+        width: 100%;
+        padding:10px 15px;
+        font-size: .8rem;
+        box-sizing:border-box;
+      }
+      .tips .weui-icon_msg{
+        font-size: 1.5rem;
+      }
+      .tips_info{
+        padding:10px 15px;
+      }
+      .search{
+      	display:inline-block;
+      	/*width: 200px;*/
+      	float: right;
+      	font-style: normal;
+      	/*text-align: right;*/
+      }
+      a{
+      	text-decoration: none;
+      	color: rgba(16,174,255,1); 
+      } 
+      .weui-dialog .weui-dialog__bd p{
+        line-height: 1.5rem;
+      }
+      .hide{
+        margin-top: -10px;
+      }
+      .weui-footer__link{
+        color: #586c94;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page" id="page">
+      <header class="page__hd">
+        <h2 class="page__title">我的预留信息</h2>
+        <p class="page__desc"><a>戳→ Get成绩推送技能</a></p>
+      </header>
+      <div class="info"> 
+        <div class="weui-cells__title">个人信息</div>
+        <div class="weui-cell">
+          <div class="weui-cell__hd"><label class="weui-label">姓 名</label></div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" disabled="disabled" name="username" type="text" value="{$userdata['username']}">
+          </div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__hd"><label class="weui-label">手 机</label></div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="number" name="phone" value="{$userdata['phone']}">
+          </div>
+        </div>
+        <div class="weui-cell">
+          <div class="weui-cell__hd"><label class="weui-label">邮 箱</label></div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="email" name="email" value="{$userdata['email']}">
+          </div>
+        </div>
+        <div class="weui-cells__title">准考证信息</div>
+        <div class="weui-cell">
+          <div class="weui-cell__hd"><label class="weui-label">证 号</label></div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="number" name="ticket_number" value="{$userdata['ticket_number']}">
+          </div>
+        </div>
+      </div>
+      <div class="tips">
+        <div class="tips_info">
+          <i class="weui-icon-info weui-icon_msg"></i>
+          <span>管家提醒:<i class="search"><a href="http://www.chsi.com.cn/cet/">等不及？戳→ 去查询</a></i></span> 
+        </div>
+        <!-- <p class="weui-media-box__desc">1.如果查询时准考证丢失，预留信息可帮你找回准考证号</p> -->
+        <p class="weui-media-box__desc">如不真实请及时修改，以确保通知信息可以准确到达</p>
+      </div>
+      <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">确定修改</a>
+      </div>
+      <div class="weui-footer" style="margin-top:20px;"> 
+        <p class="weui-footer__links">
+            <span class="weui-footer__link"><a class="qrShow"><?php echo cookie('media_name')?></a> | <a href="http://www.pocketuniversity.cn">口袋高校</a></span>
+        </p> 
+        <p class="weui-footer__text">Copyright © 2014-2016 pocketuniversity.cn</p> 
+      </div>
+
+      <div class="js_dialog" id="dialog" style="opacity: 1;display:none;" >
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">解锁新技能</strong></div>
+            <div class="weui-dialog__bd"><p>我们会在成绩公布之后</p><p>第一时间通过公众号为你推送</p><p>长按二维码关注，即刻解锁</p></div>
+            <div class="hide">
+              <img src="http://open.weixin.qq.com/qr/code/?username=gh_3347961cee42" alt="口袋高校助手:PocketUniversity" width="70%" height="auto">
+            </div>
+            <div class="weui-dialog__ft">
+                <a id="cancel" class="weui-dialog__btn weui-dialog__btn_default">确 认</a>
+            </div>
+        </div>
+      </div>
+      <div class="js_dialog" id="dialog2" style="opacity: 1;display:none;" >
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title"><?php echo cookie('media_name')?></strong></div>
+            <div class="weui-dialog__bd" style="padding:0;"><p>把你的烦恼，交给四六级管家吧</p></div>
+            <div class="hide">
+              <img src="http://open.weixin.qq.com/qr/code/?username=<?php echo cookie('media_id')?>" alt="<?php echo cookie('media_name')?>" width="70%" height="auto">
+            </div>
+            <div class="weui-dialog__ft">
+                <a id="cancel2" class="weui-dialog__btn weui-dialog__btn_default">夸 我</a>
+            </div>
+        </div>
+      </div>
+    </div> 
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script> 
+    <script type="text/javascript" src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/jquery.min.js"></script>
+    <script>
+      $('.qrShow').click(function (){
+        // alert("嘿，戳我干嘛");
+        $("#dialog2").show();
+      });
+      $('#cancel2').click(function (){
+        $("#dialog2").hide();
+      });
+      $('.page__desc').click(function (){
+        // alert("嘿，戳我干嘛");
+        $("#dialog").show();
+      });
+      $('#cancel').click(function (){
+        $("#dialog").hide();
+      });
+      $("#submit").bind("click",function(){
+        var isBind = 1;
+        var username = $("input[name=username]");
+        var phone = $("input[name=phone]");
+        var email = $("input[name=email]");
+        var ticket_number = $("input[name=ticket_number]");
+        if(phone.val() == ''){
+          isBind = 0;
+          alert("请输入电话！");
+          phone.focus();
+          reurn;
+        }
+        if(email.val() == ''){
+          isBind = 0; 
+          alert("请输入邮箱！");
+          email.focus();
+          reurn;
+        }
+        if(ticket_number.val() == ''){
+          isBind = 0;
+          alert("请输入准考证号！");
+          ticket_number.focus();
+          reurn;
+        }
+        if(isBind == 1){
+           $(this).unbind("click");
+        }
+        $.ajax({
+          type:"post",
+          url: "{:U(ajaxHandle)}",
+          data:{username2:username.val(),email2:email.val(),phone2:phone.val(),ticket_number2:ticket_number.val()},
+          dataType:"json",
+          success:function(res){
+            if(res.status == 1){
+              window.location.href = "{:U(changeSuccess)}";
+            }else{
+              alert("错误");
+            }
+           }
+        })
+      })
+    </script>
+  </body>
+</html>

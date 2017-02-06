@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>口袋高校</title>
+		<meta name = "viewport" content = "width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<style>
+		/***********css reset***********/
+			html{
+				width: 100%;
+				height: 100%;
+			}
+			body, html{
+				margin: 0;
+				padding:0;
+			}
+			li{
+				padding: 0;
+				margin: 0;
+				text-decoration: none;
+				list-style: none;
+				border: 0;
+			}
+		/***********banner***********/
+			.banner{
+				width:100%;
+				background-color: #2c6;
+				text-align: center;
+			}
+			.image{
+				width:50%;
+				margin: 5px auto;
+			}
+		/***********head***********/
+			.h3{
+				text-align: center;
+				color:#555;
+				font-family: '微软雅黑';
+				margin-bottom: 10px;
+			}
+			.head{
+				width:90%;
+				margin: 20px auto;
+				margin-top: 0px;
+			}
+			.left,.right{
+				margin-top:8px;
+				width: 35%;
+				background-color: #bbb;
+				height:1px;
+				float:left;
+			}
+			.cet{
+				width:30%;
+				font-size:0.4em ;
+				font-family:'Microsoft Yahei';
+				text-align: center;
+				float:left;
+				color:#bbb;
+
+			}
+		/***********user***********/
+			.school{
+				text-align: left;
+				margin-top:50px;
+				text-align: center;
+				display: none
+			}
+
+
+		/***********marker***********/
+			.marker p{
+				text-align: center;
+				font:1.2em 'Microsoft Yahei';
+				color:#2b6;
+			}
+		/***********technology***********/
+			.technology p{
+				font:0.5em '微软雅黑';
+				line-height: 200%;
+				color:#bbb;
+				margin: 0;
+			}
+			.technology{
+				text-align: center;
+				position:fixed;
+				bottom:0;
+				left:0;
+				right:0;
+				background-color: white;
+			}
+		</style>
+		<style>
+			/*
+				pocket university mobile homepage(version 2)
+				by Eason 2016-11-10
+			*/
+
+			/*head part*/
+			#head-box{
+				width: 100%;
+				background-color: white;
+			}
+			.door{
+				width: 45px;
+				display: block;
+				margin: 10px auto 0 auto;
+			}
+			.tri{
+				display: block;
+				margin: 5px auto;
+				width:15px;
+				height:15px;
+				animation: upAndDown 1s linear infinite alternate;
+				-webkit-animation: upAndDown 1s linear infinite alternate;
+			}
+			@keyframes upAndDown {
+					from{
+						transform: translateY(5px)
+					}
+					to{
+						transform: translateY(-5px)
+					}
+			}
+			@-webkit-keyframe upAndDown {
+				from{
+					transform: translateY(5px)
+				}
+				to{
+					transform: translateY(-5px)
+				}
+			}
+			.no-school-tip {
+				display: none;
+				width: 100%;
+				height: auto;
+				text-align: center;
+				color: #518DF0;
+                font-size: 12px;
+				padding-bottom: 10px;
+				text-decoration: none;
+			}
+			/*head part end*/
+
+			/*school list*/
+			.school{
+				width: 90%;
+				margin: 0 auto;
+				padding-bottom: 20px;
+			}
+			.drop-down-menu{
+				width:50%;
+				padding: 0;
+				float: left;
+			}
+			.left-menu{
+				overflow: hidden;
+				position: relative;
+				transition: left 0.4s ease-out;
+				left: -100%;
+			}
+			.right-menu{
+				position: relative;
+				transition: right 0.4s ease-out;
+				right: -100%;
+			}
+			.drop-down-menu li {
+				width: 100%;
+				text-align: center;
+				background: #2c6;
+				padding: 10px 0;
+				font-size: 14px;
+				margin: 10px 0;
+				color: white;
+			}
+			.left-menu li {
+				padding-left: 50%;
+				overflow: hidden;
+			}
+			.right-menu li {
+				text-indent: -100%;
+				overflow: hidden;
+			}
+			/*school list end*/
+
+			/*qr code*/
+			.qr-code img{
+				width:60%;
+				display: block;
+				margin: 10px auto 0 auto;
+			}
+			.marker {
+				text-align: center;
+				font:15px 'Microsoft Yahei';
+				color:#2b6;
+				margin-bottom: 0;
+				margin-top: 10px;
+				display: none;
+			}
+			/*qr code end*/
+		</style>
+	</head>
+	<body>
+		<div id="head-box" style="position:fixed;top:0;z-index:100">
+			<!-- banner -->
+				<div class="banner">
+					<img class="image" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/logo.png" alt="">
+				</div>
+			<!-- head -->
+				<div onclick="toggleDropDownMenu()" style="-webkit-tap-highlight-color:rgba(0,0,0,0);background-color:white;overflow:hidden">
+					<img class="door" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/door.png">
+					<img class="tri" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/up.png">
+					<p style="text-align:center;color:#bbb;font-size:13px;margin:0">点击传送门开始传送</p>
+				</div>
+				<div class="head">
+					<div class="left"></div>
+					<div class="cet">PocketUniversity</div>
+					<div class="right"></div>
+				</div>
+				<!-- <a href="http://mp.weixin.qq.com/s?__biz=MzI3NTUwNDA3Mw==&mid=100000005&idx=1&sn=7d9d407973a2b2143bfa71a951559500&chksm=6b028fa35c7506b5acd12670eff94114f07e8e8f8117fa54029b7c9c8575dc1ab9daa9b4ac00" class="no-school-tip">没有你的学校？加入我们成为运营者</a> -->
+				<a href="http://koudaigaoxiao.mikecrm.com/gv30qT" class="no-school-tip">没有你的学校？点此加入口袋联盟</a>
+		</div>
+		<div class="qr-code">
+			<img src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/0.jpg">
+			<!-- marker -->
+			<p class="marker">长按二维码，识别后即可关注</p>
+		</div>
+		<div class="school" style="overflow:hidden">
+			<ul class="drop-down-menu left-menu in-left">
+			    <li data-id="PocketUniversity">口袋大学</li>
+			    <li data-id="pockethd">杭州电子科技大学</li>
+				<li data-id="shidazhushou">浙江师范大学</li>
+				<li data-id="pocketzlg">浙江理工大学</li>
+				<li data-id="pocketjl">中国计量大学</li>
+				<li data-id="pocketcm">浙江传媒学院</li>
+				<li data-id="pocketzc">浙江财经大学</li>
+				<li data-id="pocketgs">浙江工商大学</li>
+				<li data-id="pocketsx">杭州师范大学</li>
+				<li data-id="pocketzju">浙江大学</li>
+				<li data-id="pocketgd">浙江工业大学</li>
+				<li data-id="pocketcaa">中国美术学院</li>
+				<li data-id="PocketZCMU">浙江中医药大学</li>
+				<li data-id="PocketZJIET">浙江经贸职业技术学院</li>
+				<li data-id="PocketZJTIE">浙江经济职业技术学院</li>
+				<li data-id="PocketZFC">浙江金融职业学院</li>
+				<li data-id="PocketHZVTC">杭州职业技术学院</li>
+				<li data-id="PocketZJYYC">浙江育英职业技术学院</li>
+				<li data-id="PocketZJWEU">浙江水利水电学院</li>
+				<li data-id="koudaijidian">浙江机电职业技术学院</li>
+				<li data-id="PocketZJJY">浙江警官职业学院</li>
+				<li data-id="PocketZUCC">浙江大学城市学院</li>
+				<li data-id="PocketZUST">浙江科技学院</li>
+				<li data-id="PocketZJFC">浙江农林大学</li>
+				<li data-id="pocketnbu">宁波大学</li>
+				<li data-id="PocketLSU">丽水学院</li>
+				<li data-id="PocketSUDA">苏州大学</li>
+				<li data-id="pocketszkj">苏州科技大学</li>
+				<li data-id="pocketjssvc">苏州职业大学</li>
+				<li data-id="PocketSZAI ">苏州农业职业技术学院</li>
+				<li data-id="pocketsiit ">苏州工业职业技术学院</li>
+				<li data-id="pocketchd">长安大学</li>
+				<li data-id="pocketnwnu">西北师范大学</li>
+			</ul>
+      <ul class="drop-down-menu right-menu in-right">
+				<li data-id="PocketUniversity">口袋大学</li>
+			    <li data-id="pockethd">杭州电子科技大学</li>
+				<li data-id="shidazhushou">浙江师范大学</li>
+				<li data-id="pocketzlg">浙江理工大学</li>
+				<li data-id="pocketjl">中国计量大学</li>
+				<li data-id="pocketcm">浙江传媒学院</li>
+				<li data-id="pocketzc">浙江财经大学</li>
+				<li data-id="pocketgs">浙江工商大学</li>
+				<li data-id="pocketsx">杭州师范大学</li>
+				<li data-id="pocketzju">浙江大学</li>
+				<li data-id="pocketgd">浙江工业大学</li>
+				<li data-id="pocketcaa">中国美术学院</li>
+				<li data-id="PocketZCMU">浙江中医药大学</li>
+				<li data-id="PocketZJIET">浙江经贸职业技术学院</li>
+				<li data-id="PocketZJTIE">浙江经济职业技术学院</li>
+				<li data-id="PocketZFC">浙江金融职业学院</li>
+				<li data-id="PocketHZVTC">杭州职业技术学院</li>
+				<li data-id="PocketZJYYC">浙江育英职业技术学院</li>
+				<li data-id="PocketZJWEU">浙江水利水电学院</li>
+				<li data-id="koudaijidian">浙江机电职业技术学院</li>
+				<li data-id="PocketZJJY">浙江警官职业学院</li>
+				<li data-id="PocketZUCC">浙江大学城市学院</li>
+				<li data-id="PocketZUST">浙江科技学院</li>
+				<li data-id="PocketZJFC">浙江农林大学</li>
+				<li data-id="pocketnbu">宁波大学</li>
+				<li data-id="PocketLSU">丽水学院</li>
+				<li data-id="PocketSUDA">苏州大学</li>
+				<li data-id="pocketszkj">苏州科技大学</li>
+				<li data-id="pocketjssvc">苏州职业大学</li>
+				<li data-id="PocketSZAI ">苏州农业职业技术学院</li>
+				<li data-id="pocketsiit ">苏州工业职业技术学院</li>
+				<li data-id="pocketchd">长安大学</li>
+				<li data-id="pocketnwnu">西北师范大学</li>
+			</ul>
+		</div>
+	<!-- technology -->
+		<div class="technology">
+			<p>@ Power By 口袋高校</p>
+		</div>
+		<!-- 维护 -->
+			
+		<!-- 维护 -->
+		<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+	</body>
+	<script>
+
+		//　获取dom
+    var qrImg = $('.qr-code img'),
+			  drowDownMenu = $('.school'),
+			  qrCode = $('.qr-code'),
+			  leftMenu = $('.left-menu'),
+			  rightMenu = $('.right-menu');
+
+		window.addEventListener('load', function() {
+				//动态调整一部分 UI, 适配屏幕
+			  var headBoxHeight = $('#head-box').offsetHeight + 'px';
+				drowDownMenu.style.marginTop = headBoxHeight;
+
+				var marginHeight = $('html').offsetHeight - $('#head-box').offsetHeight - qrCode.offsetHeight - 30;
+				qrCode.style.marginTop = marginHeight/2 + $('#head-box').offsetHeight + 'px';
+		})
+
+		//　点击开门关门
+		function toggleDropDownMenu() {
+
+			_this = drowDownMenu;
+
+			//　第一次点击开门，　之前没有设置 data 属性
+			//　根据　这个　data　属性，判断学校列表显示还是隐藏
+			if(!_this.dataset.menu) {
+
+				drowDownMenu.show();
+				$('.no-school-tip').show()
+				// need a hack to fix a bug, just use timeout
+				timeout(function() {
+					menuMove(0);
+					qrCode.hide()
+					_this.dataset.menu = 'show';
+				}, 100)
+
+				return
+			}
+
+			if(_this.dataset.menu == 'hide') {
+
+				drowDownMenu.show()
+				$('.no-school-tip').show()
+
+				timeout(function() {
+					menuMove(0);
+					qrCode.hide()
+					_this.dataset.menu = 'show';
+				}, 100)
+
+			}else if(_this.dataset.menu == 'show'){
+
+				menuMove(-100);
+				// 开门动画总共 500ms 提前100ms隐藏学校列表
+				timeout(function() {
+					drowDownMenu.hide()
+					$('.no-school-tip').hide()
+					qrCode.show()
+				}, 400)
+				_this.dataset.menu = 'hide';
+			}
+		}
+
+		// 选择学校　事件委托
+		drowDownMenu.addEventListener('click', function (e) {
+			if(e.target.tagName !== 'LI') {
+				return;
+			}
+
+			$('.marker').show();
+
+			menuMove(-100);
+			drowDownMenu.dataset.menu = 'hide';
+
+			//　点击后，动画开始，这里通过定时器在不同时刻做不同动作，满足需求
+			timeout(function() {
+				qrCode.show()
+				window.scrollTo(0,0);  // fix sreen shine problem
+			}, 300);
+
+            $('.no-school-tip').hide()
+			timeout(function() {
+				drowDownMenu.hide()
+			}, 500);
+
+			// 切换二维码图片
+			qrImg.src = 'http://open.weixin.qq.com/qr/code/?username=' + e.target.dataset.id;
+		})
+
+		// 封装一下
+		function menuMove(pos) {
+			leftMenu.style.left = pos + '%';
+			rightMenu.style.right =  pos + '%';
+		}
+
+		// 工具函数
+		function timeout(cb, time) {
+			setTimeout(cb, time);
+		}
+		function $(selector) {
+			if(typeof selector !== 'string' && typeof selector !== 'object') {
+				console.error('arg need a selector or node object')
+				return
+			}
+
+			var dom = typeof selector === 'string' ? document.querySelector(selector) : selector;
+			dom.show = show;
+			dom.hide = hide;
+			return dom;
+		}
+		function show(){
+			this.style.display = 'block'
+		}
+		function hide(){
+			this.style.display = 'none'
+		}
+	</script>
+	<script>
+	// var notice = '【服务器升级公告】\n抱歉的通知各位，由于用户量激增服务器达到瓶颈，我们决定升级并迁移服务器，服务器现在正在升级中...\n[预计12-19下午4点前完成维护升级]在此期间，暂时不能为各位提供服务，敬请谅解。'
+	
+	// setTimeout(function () {
+	// 	alert(notice)
+	// }, 300)
+	</script>
+</html>

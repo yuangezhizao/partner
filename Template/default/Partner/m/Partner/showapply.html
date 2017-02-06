@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> -->
+    <title>卖室友申请更多</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  </head>
+  <body>
+    <table class="hello table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>公众号名称</th>
+        <th>申请管理的公众号</th>
+        <th>申请理由</th>
+        <th>申请时间</th>
+      </tr>
+    </thead>
+    <tbody>
+    <foreach name="data" item="item">
+      <tr class="info">
+        <td>{$item['apply_name']}</td>
+        <td>{$item['school_name']}</td>
+        <td>{$item['reason']}</td>
+        <td>{$item['apply_time']|date='y-m-d H:i:s',###}</td>
+        <td><a href='http://www.pocketuniversity.cn/index.php/Partner/Partner/updateCommitApply?apply_id={$item['apply_id']}&state=1'>同意</a></td>        
+        <td><a href='http://www.pocketuniversity.cn/index.php/Partner/Partner/updateCommitApply?apply_id={$item['apply_id']}&state=2'>不同意</a></td>
+      </tr>
+    </foreach>
+    </tbody>
+    </table>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>

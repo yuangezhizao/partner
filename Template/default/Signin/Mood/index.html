@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>心情日记</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/MoodDiary/css/index.css?v=2">
+    <script>
+        function onBridgeReady(){
+            WeixinJSBridge.call('hideOptionMenu');
+        }
+
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }else{
+            onBridgeReady();
+        }
+    </script>
+    <script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.1.js"></script>
+    <script>
+        _kd.remAdjust()
+    </script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</head>
+<body id="moodDiary">
+
+    <!-- 主页头 -->
+    <div class="main-page__header">
+        <a href="javascript:history.back()" class="app-back">
+            <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/back.png">
+        </a>
+        <p>心情日记</p>
+    </div>
+    <!-- 主页头 -->
+
+    <!-- 日记切换 浮动 -->
+    <div id="diaryListFixedHeader" class="diary-list__header_fixed">
+        <div class="diary-list__btn_switch" @click="showDiaryListMenu(1)">
+            <span v-show="curListType == 'all'">所有日记</span>
+            <span v-show="curListType == 'my'">我的日记</span>
+            <span v-show="curListType == 'friend'">好友日记</span>
+            <div @click="getMood($event)" data-menu='menu' class="diary-list__list-menu diary-list__list-menu1">
+                <p data-list-type="all">所有日记</p>
+                <p data-list-type="my">我的日记</p>
+                <p data-list-type="friend">好友日记</p>
+            </div>
+        </div>
+        <a v-if="noFriend" class="diary-list__btn_invite" :href="'http://www.pocketuniversity.cn/index.php/Signin/share/friends?uid=' + id + '&media_id=' + mediaId">
+            <span>你还没有好友哦，点此邀请</span>
+        </a>
+    </div>
+    <!-- 日记切换 浮动-->
+    <!-- 返回顶部 -->
+    <div id="backToTopFixed" class="back-to-top" @click="backToTopFixed"></div>
+    <!-- 返回顶部 -->
+
+    <!-- 主页 -->
+    <div class="wrapper page main-page" @scroll="listMenuFixed">
+        <!-- 日历 -->
+        <div class="calendar">
+            <div class="calendar__hd">
+                <a @click="setCalendarViewDate({type:'prev'})" class="calendar__btn_month calendar__btn_prev" :class="['calendar__btn_month calendar__btn_prev', {
+                    'hidden': (this.currentViewYear == 2016) && (this.currentViewMonth == 11)
+                }]">
+                    <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/month-arrow.png" alt="前一月">
+                </a>
+
+                <p @click="chooseCalendarViewDate" class="calendar__title" v-text="currentViewYear + '年' + numToChinese[currentViewMonth] + '月'"></p>
+
+                <a @click="setCalendarViewDate({type:'next'})" class="calendar__btn_month calendar__btn_next hidden" :class="['calendar__btn_month calendar__btn_next', {
+                    'hidden': (this.currentViewYear == this.currentYear) && (this.currentViewMonth == this.currentMonth)
+                }]">
+                    <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/month-arrow.png" alt="后一月">
+                </a>
+            </div>
+            <div class="calendar__month-days">
+                <div class="calendar__week">
+                    <p class="calendar__day">日</p>
+                    <p class="calendar__day">一</p>
+                    <p class="calendar__day">二</p>
+                    <p class="calendar__day">三</p>
+                    <p class="calendar__day">四</p>
+                    <p class="calendar__day">五</p>
+                    <p class="calendar__day">六</p>
+                </div>
+
+                <div class="calendar__days">
+                    <p class="calendar__day" v-for="item in curCalendarDayList" :class="['calendar__day', {
+                        'calendar__day_state1': item.type == 'state1',
+                        'calendar__day_mood1': item.type == '1',
+                        'calendar__day_mood2': item.type == '2',
+                        'calendar__day_mood3': item.type == '3',
+                        'calendar__day_mood4': item.type == '4',
+                        'calendar__day_today': item.type == 'today'
+                    }]">
+                        <span v-if="item.type=='normal' || item.type=='state1'" v-text="item.content"></span>
+                        <span v-if="item.type=='none'"></span>
+                    </p>
+
+                    <!-- 加载中 -->
+                    <div id="loading" class="calendar__mask">
+                        <img class="calendar__loading" src="http://static.pocketuniversity.cn/kdgx/EveryDay/1.0/images/appLoading.gif" alt="">
+                    </div>
+                    <!-- 加载中 -->
+                </div>
+            </div>
+        </div>
+        <!-- 日历 -->
+
+        <!-- 记录 -->
+        <div class="record">
+            <div class="test">
+                <p class="record__tip">已经坚持<span class="record__day" v-text="totalDay"></span>天，连续<span class="record__day" v-text="consecutiveDays"></span>天</p>
+                <p @click="writeMood" class="test2">记录今天的心情</p>
+            </div>
+            <div @click="writeMood" class="record__mood">
+                <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/write-mood.png" alt="点此记录今天的心情">
+            </div>
+        </div>
+        <!-- 记录 -->
+
+        <!-- 日记列表 全部、我的、好友 -->
+        <div class="diary-list">
+
+            <!-- 日记切换 -->
+            <div class="diary-list__header">
+                <div class="diary-list__btn_switch" @click="showDiaryListMenu(2)">
+                    <span v-show="curListType == 'all'">所有日记</span>
+                    <span v-show="curListType == 'my'">我的日记</span>
+                    <span v-show="curListType == 'friend'">好友日记</span>
+                    <div @click="getMoodList($event)" data-menu='menu' class="diary-list__list-menu diary-list__list-menu2">
+                        <p data-list-type="all">所有日记</p>
+                        <p data-list-type="my">我的日记</p>
+                        <p data-list-type="friend">好友日记</p>
+                    </div>
+                </div>
+                <a v-if="noFriend" class="diary-list__btn_invite" :href="'http://www.pocketuniversity.cn/index.php/Signin/share/friends?uid=' + id + '&media_id=' + mediaId">
+                    <span>你还没有好友哦，点此邀请</span>
+                </a>
+            </div>
+            <!-- 日记切换 -->
+
+            <!-- 所有心情 -->
+            <div id="allDiaryList" class="diary-list__container" v-show="curListType == 'all'">
+                <!-- 列表模板 -->
+                <div class="diary-list__card" v-for="item in allDiaryList" v-show="(item.isSelf==1 || item.is_show==1) && (item.nickname != 'Nude' && item.nickname != '空' && item.nickname != '勉～辰风')">
+
+                    <div class="diary-list__card-hd">
+                        <img class="user-head" :src="item.headimgurl || 'http://static.pocketuniversity.cn/kdgx/lib/kdImages/nohead.jpg'" alt="头像">
+                        <div class="card-info">
+                            <p class="username" v-text="item.nickname || '某同学'"></p>
+                            <p class="uploadtime" v-text="item.create_time|timeline"></p>
+                        </div>
+                        <p class="days" v-text="item.SigninCount + '天'"></p>
+
+                        <img v-if="item.mood==1 || item.mood==0" class="mood" :class="['mood', {'mood-show': item.mood==1 || item.mood==0}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm_black.png">
+                        <img v-if="item.mood==2" class="mood" :class="['mood', {'mood-show': item.mood==2}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy_black.png">
+                        <img v-if="item.mood==3" class="mood" :class="['mood', {'mood-show': item.mood==3}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy_black.png">
+                        <img v-if="item.mood==4" class="mood" :class="['mood', {'mood-show': item.mood==4}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy_black.png">
+                    </div>
+
+                    <div class="diary-list__card-content">
+                        <img :src="item.content_img" v-if="item.content_img">
+                        <p v-text="item.content"></p>
+                    </div>
+
+                    <div class="diary-list__card-ft">
+                        <p v-if="item.isSelf == 1" class="diary-list__btn_delete"><span data-id="{{item.id}}"  @click="operateList($event, 'delete', $index)">删除</span><span v-if="item.is_show=='0'">（此条仅自己可见）</span></p>
+                        <p v-else @click="operateList($event, 'report')" data-id="{{item.id}}" class="diary-list__btn_delete">举报</p>
+
+                        <p @click="createCard(item.id, $index)" class="diary-list__btn diary-list__btn_card">
+                            <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/card.png" alt="点此生成日记卡">
+                            <span>日记卡</span>
+                        </p>
+                        <p @click="sendGood(item.id, $index, item.thumb, item.isSelf)" data-id={{item.id}} class="diary-list__btn diary-list__btn_good">
+                            <img v-if="item.thumb==0" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love1.png" alt="点赞">
+                            <img v-else src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love2.png" alt="已经点赞">
+                            <span v-text="'+' + item.thumb_times + 'g'"></span>
+                        </p>
+                    </div>
+
+                </div>
+                <!-- 列表模板 end -->
+
+                <!-- more -->
+                <div class="page__bd">
+                    <a v-show="!loadingState.all && !noMoreState.all" @click="loadMore($event,'all')" class="loadmore weui-btn weui-btn_mini weui-btn_default">加载更多</a>
+                    <div v-show="loadingState.all" class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <div class="weui-loadmore weui-loadmore_line" v-show="noMoreState.all">
+                        <span class="nomore weui-loadmore__tips">没有更多了</span>
+                    </div>
+                </div>
+                <!-- more -->
+            </div>
+            <!-- 所有心情 -->
+
+            <!-- 我的心情 -->
+            <div id="myDiaryList" class="diary-list__container" v-show="curListType == 'my'">
+                <!-- a card -->
+                <div class="diary-list__card" v-for="item in myDiaryList">
+                    <div class="diary-list__card-hd">
+                        <img class="user-head" :src="item.headimgurl || 'http://static.pocketuniversity.cn/kdgx/lib/kdImages/nohead.jpg'" alt="头像">
+                        <div class="card-info">
+                            <p class="username" v-text="item.nickname || '某同学'"></p>
+                            <p class="uploadtime" v-text="item.create_time|timeline"></p>
+                        </div>
+
+                        <p class="days" v-text="item.SigninCount + '天'"></p>
+
+                        <img v-if="item.mood==1 || item.mood==0" class="mood" :class="['mood', {'mood-show': item.mood==1 || item.mood==0}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm_black.png">
+                        <img v-if="item.mood==2" class="mood" :class="['mood', {'mood-show': item.mood==2}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy_black.png">
+                        <img v-if="item.mood==3" class="mood" :class="['mood', {'mood-show': item.mood==3}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy_black.png">
+                        <img v-if="item.mood==4" class="mood" :class="['mood', {'mood-show': item.mood==4}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy_black.png">
+                    </div>
+
+                    <div class="diary-list__card-content">
+                        <img :src="item.content_img" v-if="item.content_img">
+                        <p v-text="item.content"></p>
+                    </div>
+
+                    <div class="diary-list__card-ft">
+
+                        <p v-if="item.isSelf == 1" class="diary-list__btn_delete"><span data-id="{{item.id}}" @click="operateList($event, 'delete', $index)">删除</span><span v-if="item.is_show=='0'">（此条仅自己可见）</span></p>
+                        <p v-else @click="operateList($event, 'report')" data-id="{{item.id}}" class="diary-list__btn_delete">举报</p>
+
+                        <p @click="createCard(item.id, $index)" class="diary-list__btn diary-list__btn_card">
+                            <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/card.png" alt="点此生成日记卡">
+                            <span>日记卡</span>
+                        </p>
+                        <p @click="sendGood(item.id, $index, item.thumb, item.isSelf)" data-id={{item.id}} class="diary-list__btn diary-list__btn_good">
+                            <img v-if="item.thumb==0" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love1.png" alt="点赞">
+                            <img v-else src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love2.png" alt="已经点赞">
+                            <span v-text="'+' + item.thumb_times + 'g'"></span>
+                        </p>
+                    </div>
+                </div>
+                <!-- a card end -->
+
+                <!-- more -->
+                <div class="page__bd">
+                    <div v-show="myDiaryList.length != 0" class="weui-loadmore weui-loadmore_line">
+                        <span class="nomore weui-loadmore__tips">没有更多了</span>
+                    </div>
+                    <div v-else @click="writeMood" class="weui-loadmore weui-loadmore_line">
+                        <span class="nomore weui-loadmore__tips">点此开始记录</span>
+                    </div>
+                </div>
+                <!-- more -->
+            </div>
+            <!-- 我的心情 -->
+
+            <!-- 好友心情 -->
+            <div id="friendDiaryList" class="diary-list__container" v-show="curListType == 'friend'">
+                <!-- a card -->
+                <div class="diary-list__card" v-for="item in friendDiaryList">
+                    <div class="diary-list__card-hd">
+                        <img class="user-head" :src="item.headimgurl || 'http://static.pocketuniversity.cn/kdgx/lib/kdImages/nohead.jpg'" alt="头像">
+                        <div class="card-info">
+                            <p class="username" v-text="item.nickname || '某同学'"></p>
+                            <p class="uploadtime" v-text="item.create_time|timeline"></p>
+                        </div>
+
+                        <p class="days" v-text="item.SigninCount + '天'"></p>
+                        
+                        <img v-if="item.mood==1 || item.mood==0" class="mood" :class="['mood', {'mood-show': item.mood==1 || item.mood==0}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm_black.png">
+                        <img v-if="item.mood==2" class="mood" :class="['mood', {'mood-show': item.mood==2}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy_black.png">
+                        <img v-if="item.mood==3" class="mood" :class="['mood', {'mood-show': item.mood==3}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy_black.png">
+                        <img v-if="item.mood==4" class="mood" :class="['mood', {'mood-show': item.mood==4}]" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy_black.png">
+                    </div>
+
+                    <div class="diary-list__card-content">
+                        <img :src="item.content_img" v-if="item.content_img">
+                        <p v-text="item.content"></p>
+                    </div>
+
+                    <div class="diary-list__card-ft">
+
+                        <p v-if="item.isSelf == 1" class="diary-list__btn_delete"><span data-id="{{item.id}}"  @click="operateList($event, 'delete', $index)">删除</span><span v-if="item.is_show=='0'">（此条仅自己可见）</span></p>
+                        <p v-else @click="operateList($event, 'report')" data-id="{{item.id}}" class="diary-list__btn_delete">举报</p>
+
+                        <p @click="createCard(item.id, $index)" class="diary-list__btn diary-list__btn_card">
+                            <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/card.png" alt="点此生成日记卡">
+                            <span>日记卡</span>
+                        </p>
+                        <p @click="sendGood(item.id, $index, item.thumb, item.isSelf)" data-id={{item.id}} class="diary-list__btn diary-list__btn_good">
+                            <img v-if="item.thumb==0" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love1.png" alt="点赞">
+                            <img v-else src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/love2.png" alt="已经点赞">
+                            <span v-text="'+' + item.thumb_times + 'g'"></span>
+                        </p>
+                    </div>
+                </div>
+                <!-- a card end -->
+
+                <!-- more -->
+                <div class="page__bd">
+                    <a v-show="!loadingState.friend && !noMoreState.friend" @click="loadMore($event,'friend')" class="loadmore weui-btn weui-btn_mini weui-btn_default">加载更多</a>
+                    <div v-show="loadingState.friend" class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <div v-show="noMoreState.friend" class="weui-loadmore weui-loadmore_line">
+                        <span class="nomore weui-loadmore__tips">没有更多了</span>
+                    </div>
+                </div>
+                <!-- more -->
+            </div>
+            <!-- 好友心情 -->
+        </div>
+
+        </div>
+        <!-- diary list -->
+
+    </div>
+    <!-- 主页 -->
+
+    <!-- <div class="mood-page"> -->
+        <!-- 写心情页面 -->
+        <div class="wrapper write-page">
+            <!-- 页头 -->
+            <div class="write-page__hd">
+                <a @click="navgatorBack" class="app-back">
+                    <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/back.png" alt="">
+                </a>
+                <p v-show="nickname!=''">{{nickname}}的心情日记</p>
+                <p v-else>{{nickname}}心情日记</p>
+            </div>
+            <!-- 页头 -->
+
+            <div class="mood-write-area">
+                <div class="weui-cells weui-cells_form">
+                    <div class="my-cell weui-cell">
+                        <div class="textarea-box weui-cell__bd">
+                            <textarea style="font-size: .15rem" v-model="sendData.content" class="my-textarea weui-textarea" placeholder="现在的心情/今天的计划，想到啥说啥吧..." rows="5"></textarea>
+                            <!-- <div class="weui-textarea-counter"><span>0</span>/200</div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mood-choose">
+                <p>今天的心情:</p>
+                <div @click="chooseMood" class="mood-img-box">
+                    <img v-show="sendData.mood=='1'" data-mood-type="1" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm2.png" class="mood-calm-on">
+                    <img v-else data-mood-type="1" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/calm1.png" class="mood-calm">
+
+                    <img v-show="sendData.mood=='2'" data-mood-type="2" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy2.png" class="mood-happy-on">
+                    <img v-else data-mood-type="2" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/happy1.png" class="mood-happy">
+
+                    <img v-show="sendData.mood=='3'" data-mood-type="3" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy2.png" class="mood-unhappy-on">
+                    <img v-else data-mood-type="3" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/unhappy1.png" class="mood-unhappy">
+
+                    <img v-show="sendData.mood=='4'" data-mood-type="4" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy2.png" class="mood-sleepy-on">
+                    <img v-else data-mood-type="4" src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/sleepy1.png" class="mood-sleepy">
+                </div>
+            </div>
+
+            <!-- 图片上传 -->
+            <div class="photo-choose-area">
+                <form class="for-reset" name="reset">
+                    <input @change="photoProcess" class="photo-choose" type="file" accept="image/jpeg,image/gif,image/png,image/bmp,image/jpg">
+                </form>
+                <div id='previewContainer' class="preview-container">
+                    <img id='preview' class="preview">
+                    <a @click="reset" class="reset">
+                        <img src="http://static.pocketuniversity.cn/kdgx/mooddiary/images/reset.png">
+                    </a>
+                </div>
+            </div>
+            <!-- 图片上传 -->
+
+            <div class="write-page__footer">
+                <div class="write-page__btn-area">
+                    <div class="weui-cells weui-cells_checkbox">
+                        <label class="publish-label weui-cell weui-check__label" for="s11" style="padding:5px;padding-right: 0">
+                            <div class="weui-cell__hd" style="line-height: 0;">
+                                <input v-model="sendData.is_show_temp" type="checkbox" class="weui-check" name="checkbox1" id="s11">
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="label-text weui-cell__bd">
+                                <p>仅自己可见</p>
+                            </div>
+                        </label>
+                        <a class="weui-cell_link">
+                            <div class="weui-cell__bd">发布/日记被点赞可获得能量奖励哦</div>
+                        </a>
+                    </div>
+                </div>
+                <a @click="submit" class="publish opera-btn continue-btn weui-btn weui-btn_primary">
+                    发布
+                </a>
+            </div>
+        </div>
+        <!-- 写心情页面 -->
+    <!-- </div> -->
+
+    <!-- canvas 图片生成页 -->
+
+    <div id="diaryCardWrapper" class="diary-card-wrapper">
+        <div id="canvasDraw">
+            <div id="showDiaryCard" class="diary-card-show">
+                <div class="diary-card__hd">
+                    <p class="diary-card__day-count">第{{render.SigninCount}}天</p>
+                    <div class="diary-card__info">
+                        <img v-if="render.mood=='1' || render.mood=='0'" src="http://www.pocketuniversity.cn/Static/mooddiary/images/calm_black.png">
+                        <img v-if="render.mood=='2'" src="http://www.pocketuniversity.cn/Static/mooddiary/images/happy_black.png">
+                        <img v-if="render.mood=='3'" src="http://www.pocketuniversity.cn/Static/mooddiary/images/unhappy_black.png">
+                        <img v-if="render.mood=='4'" src="http://www.pocketuniversity.cn/Static/mooddiary/images/sleepy_black.png">
+                        <div class="diary-card__title">
+                            <p>早起打卡</p>
+                            <p>{{render.curDate}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diary-card__content">
+                    <img id="diaryCardImage" class="diary-card__image" :src="render.content_img" v-if="render.content_img">
+                    <p class="diary-card__text">{{render.content}}</p>
+                    <div class="diary-card__author">
+                        by {{render.nickname}}
+                    </div>
+                </div>
+
+                <div class="diary-card__ft">
+                    <div class="diary-card__tip">
+                        <p>长按识别二维码，早起打卡</p>
+                        <p>开始你的坚持故事</p>
+                    </div>
+                    <img :src="'http://www.pocketuniversity.cn/index.php/Signin/MoodAdmin/MoodQRCode?url=http://www.pocketuniversity.cn/index.php/Signin/index/index?media_id=' + render.mediaId" class="diary-card__QRCode">
+                </div>
+            </div>
+        </div>
+
+        <!-- 图片生成页 遮罩 -->
+        <div id="diaryCardMask" class="diary-card__mask">
+            <p class="diary-card__mask-tip">长按上方图片，保存日记卡</p>
+            <a @click="backToMain" class="diary-card__btn-back weui-btn weui-btn_primary">返回</a>
+        </div>
+        <!-- 图片生成页 遮罩 -->
+    </div>
+    <!-- canvas 图片生成页 -->
+
+    <!-- 弹出层 -->
+    <div id="loadingToast" style="display: none;font-size: 14px;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据保存中...</p>
+        </div>
+    </div>
+    <!-- 弹出层 -->
+    <script src="//cdn.bootcss.com/vue/1.0.28/vue.min.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    <!-- <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/filter.js"></script> -->
+    <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/index.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/lrz.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/h2c.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/MoodDiary/js/write.js"></script>
+</body>
+</html>

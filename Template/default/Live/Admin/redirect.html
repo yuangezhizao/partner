@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<title>邀您管理{$room_id}号弹幕互动房间</title>
+	<style>
+		html, body {
+			padding: 0;
+			margin: 0;
+			font-family: 'Heiti SC';
+		}
+		.header {
+			width: 100%;
+			background-color: #58B9BC;
+			color: white;
+			padding: 31px 0;
+			padding-top: .8rem;
+			position: relative;
+		}
+		.header p {
+			text-align: center;
+			padding: 0;
+			margin: 0;
+		    font-size: 16px;
+		}
+		.header img {
+			position: absolute;
+			top: .1rem;
+			right: .1rem;
+		    width: 80px;
+		}
+		.enter {
+			width: 100%;
+			margin-top: .3rem;
+			text-align: center;
+			font-size: 12px;
+		}
+		.enter a {
+			color: #79b9b9;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+	<div style='margin:0 auto;width:0px;height:0px;overflow:hidden;'>
+		<img src="http://static.pocketuniversity.cn/kdgx/lib/commonimg/danmuhudong.jpg" width='700'>
+	</div>
+	<div class="header">
+		<p>点击右上角分享</p>
+		<p>邀请小伙伴成为管理员</p>
+		<img src="http://static.pocketuniversity.cn/kdgx/danmumanager/images/arrow.png">
+	</div>
+	<img src="http://static.pocketuniversity.cn/kdgx/danmumanager/images/share.png" width="100%">
+	<p class="enter">
+		或者 <a href="http://{:C('WEB_SITE')}/index.php/Live/Home/index?room_id={$room_id}">直接进入房间</a>
+	</p>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+	<script>
+		var Width = window.screen.width
+	    var Height = window.screen.height
+	    var scaleRatio = Width/375 // 以iphone6 为基准
+	    if(scaleRatio > 1.36) {
+	      scaleRatio = 1.36
+	    }
+	    // iphone6 font-size 为 100
+	    document.querySelector('html').style.fontSize = 100 * scaleRatio + 'px'
+	</script>
+</body>
+</html>

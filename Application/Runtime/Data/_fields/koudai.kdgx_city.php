@@ -1,0 +1,1 @@
+a:7:{i:0;s:7:"city_id";i:1;s:4:"city";i:2;s:11:"province_id";i:3;s:9:"spell_all";i:4;s:11:"spell_short";s:3:"_pk";s:7:"city_id";s:5:"_type";a:5:{s:7:"city_id";s:6:"int(8)";s:4:"city";s:11:"varchar(16)";s:11:"province_id";s:6:"int(4)";s:9:"spell_all";s:11:"varchar(16)";s:11:"spell_short";s:10:"varchar(8)";}}

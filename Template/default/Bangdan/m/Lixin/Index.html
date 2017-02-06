@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+*{
+font-family:新宋体;
+}
+</style>
+</head>
+<body>
+<table>
+		<tr>
+			<td>uid</td>
+			<td>姓名</td>
+			<td>手机</td>
+			<td>公众号名称</td>
+			<td>学校</td>
+			<td>自填粉丝规模</td>
+			<td>预计粉丝规模</td>
+		</tr>
+		<foreach name='arr' item='v'>
+		<tr>
+			<td>{$v.uid}</td>
+			<td>{$v.name}</td>
+			<td>{$v.phone}</td>
+			<td>{$v.public_name}</td>
+			<td>{$v.school}</td>
+			<if condition="$v.fans_scale =='1'">
+			<td>5k以内</td>
+			<elseif condition="$v.fans_scale =='2'"/>
+			<td>5-10k粉丝</td>
+			<elseif condition="$v.fans_scale =='3'"/>
+			<td>10-20k粉丝</td>
+			<elseif condition="$v.fans_scale =='4'"/>
+			<td>20k以上</td>
+			<else/>
+			<td>没填</td>
+			</if>
+			<td>{$v.fans}</td>
+		</tr>
+		</foreach>
+	</table>
+</body>
+</html>

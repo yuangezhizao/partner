@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sure" email="Sure@tuiyilin.com">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>共享流量充值</title>
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/lib/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/main.css">
+  </head>
+  <body>
+    <div class="page" id="page"> 
+      <div id="makeChoice" v-if="currentPanel.makeChoice">  
+        <header>
+          <marquee scrollAmount=8 behavior="scroll" width="100%"  v-text="adMessage"></marquee>
+        </header>
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                    <div class="weui-navbar__item weui-bar__item_on" id="panelOne" @click="changePanel">
+                        <span>流量充值</span>
+                    </div>
+                    <div class="weui-navbar__item" id="panelTwo" @click="changePanel">
+                        <span>充值记录</span>
+                    </div>
+            </div>
+            <div class="weui-tab__panel" v-show="currentPanel.panelOne" id="index_panelOne">
+                    <div class="box_pic">
+                      <img src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/images/share.jpg" alt="小口袋就是你的流量啊" width="110" height="auto">
+                    </div> 
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cells__title">手机号码</div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">号码</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="phoneNum" class="weui-input" type="number" @input="checkPhone" maxlength="11" required="required" v-model="phoneNum" placeholder="请输入手机号码，限浙江用户"/> 
+                            </div>
+                        </div>
+                        <div class="weui-cells__title">套餐类型</div>
+                        <div class="weui-cells">
+                            <a class="weui-cell weui-cell_access" @click="editInfo">
+                                <div class="weui-cell__bd">
+                                    <p style="color:rgba(0,153,68,.8);">浙江移动(全国共享流量)</p>
+                                </div>
+                                <div class="weui-cell__ft">说明</div>
+                            </a>
+                        </div>
+                        <div class="weui-grids">
+                            <a @click="choiced" data-id="{{good.id}}"v-for="good in goodsList.lists.yd" class="weui-grid">
+                                <i class="weui-icon-success" data-id="{{good.id}}"></i>
+                                <div class="weui-grid__icon" v-text="good.goods_name"></div>
+                                <p class="weui-grid__label">￥<span v-text="good.goods_price/100 | price"></span></p>
+                            </a>  
+                        </div> 
+                        <!-- <footer> 
+                          <a class="weui-btn weui-btn_primary" @click="postData">立即充值</a>
+                        </footer> -->
+                    </div>
+                    <div class="weui-cells weui-cells_form">
+<!--                         <div class="weui-cells__title">电信号码</div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">号码</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="phoneNum" class="weui-input" type="number" @input="checkPhone2" maxlength="11" required="required" v-model="phoneNum" placeholder="请输入手机号码，限浙江电信"/> 
+                            </div>
+                        </div> --> 
+                        <!-- <div class="weui-cells__title">套餐类型</div>  -->
+                        <div class="weui-cells">
+                            <a class="weui-cell weui-cell_access" @click="editInfo2">
+                                <div class="weui-cell__bd">
+                                    <p style="color:rgba(0,153,68,.8)">浙江电信(全国流量直充)</p>
+                                </div>
+                                <div class="weui-cell__ft">说明</div> 
+                            </a>
+                        </div>
+                        <div class="weui-grids"> 
+                            <a @click="choiced" data-id="{{good.id}}"v-for="good in goodsList.lists.dx" class="weui-grid"> 
+                                <i class="weui-icon-success" data-id="{{good.id}}"></i>
+                                <div class="weui-grid__icon" v-text="good.goods_name"></div>
+                                <p class="weui-grid__label">￥<span v-text="good.goods_price/100 | price"></span></p>
+                            </a> 
+                        </div> 
+                    </div>
+                    <footer> 
+                      <a class="weui-btn weui-btn_primary" @click="postData">立即充值</a>
+                    </footer>
+                    <div class="weui-msg__extra-area" id="copyRight">  
+                        <div class="weui-footer"> 
+                            <p class="weui-footer__links">
+                                <a href="http://www.pocketuniversity.cn" style="font-size:12px;" class="weui-footer__link">
+                                  口袋高校
+                                </a>
+                            </p>
+                            <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+                        </div>
+                    </div> 
+            </div>
+            <div class="weui-tab__panel" v-show="currentPanel.panelTwo" id="index_panelTwo">
+                    <div class="weui-search-bar" id="search_bar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i> 
+                                <input type="search" class="weui-search-bar__input" id="search_input" placeholder="输入手机号/订单号" @click="focusing" @blur="searchOnlyOrder" v-model="searchOrder"/>
+                                <a href="javascript:" class="weui-icon-clear" id="search_clear"></a>
+                            </div>
+                            <label for="search_input" class="weui-search-bar__label" id="search_text">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <a @click="searchCancel" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
+                    </div>
+                    <div class="weui-cells weui-cells_access search_show" id="search_show">
+                        <table class="searchTable" cellspacing="0">
+                          <tr class="thead">
+                            <th class="table_a">手机号码</th> 
+                            <th class="table_b">流量</th>
+                            <th class="table_c">时间</th> 
+                            <th class="table_d">状态</th> 
+                          </tr>
+                          <tr v-for="list in orderList.lists" data-id="{{list.id}}" data-type="{{list.state}}" @click="rePay">
+                            <td class="table_a" v-text="list.phone"></td>
+                            <td class="table_b" v-text="list.goods_name"></td>
+                            <td class="table_c" v-text="list.time | timer"></td>
+                            <td class="table_d" v-bind:class="{ 'class-a': list.state==1||list.state==5,'class-b':list.state==3||list.state==4,'class-c': list.state==0||list.state==2}" data-id="{{list.id}}" v-text="list.state | state"></td>
+                          </tr>
+                        </table>
+                    </div>
+            </div> 
+        </div>
+      </div>
+      <div id="qrCode" v-if="currentPanel.qrCode">
+        <div class="pocketLogo">
+          <img src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/images/pocket.jpg" alt="口袋高校" width="70" height="auto">
+        </div>
+        <h3>为了更好的体验,扫码关注以继续</h3>
+        <div class="scan">
+          <img :src="'http://www.pocketuniversity.cn/index.php/Home/Wechat/getQRcode?type=5&scene='+ orderNum" alt="扫码关注" width="50%" height="auto">
+        </div>
+        <h4>购买成功后将以公众号消息的形式通知您</h4>
+        <div class="payOrder">
+          订单号：<span>{{orderNum}}</span>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+            </div>
+        </div>
+      </div>
+      <div class="dialog hide" id="editInfo">
+          <div id="dialogs">
+              <!--BEGIN 编辑说明-->
+              <div class="js_dialog" id="iosDialog" style="opacity:1;">
+                  <div class="weui-mask"></div>
+                  <div class="weui-dialog">
+                      <div class="weui-dialog__hd"><strong class="weui-dialog__title">流量说明</strong></div>
+                      <div class="weui-cell__bd" style="margin-bottom:10px;">
+                        <div style="display:block;height:auto;text-align:left;color:rgba(0,0,0,.6);" class="weui-textarea" v-text="infoMessage"></div>
+                      </div>
+                      <a style="display:block;margin-top:-15px;margin-bottom:5px;color:rgba(56,121,217,1);" href="http://mp.weixin.qq.com/s/WNQXFO6aw6H54YFK39gR9g">点此查看详情</a>
+                      <div class="weui-dialog__ft">
+                          <a @click="cancleShow('iosDialog')" class="weui-dialog__btn weui-dialog__btn_primary">确 认</a>
+                          <!-- <a  class="weui-dialog__btn weui-dialog__btn_primary">确认</a> -->
+                      </div>
+                  </div> 
+              </div>
+              <div class="js_dialog" id="iosDialog2" style="opacity:1;" v-show="0">
+                  <div class="weui-mask"></div>
+                  <div class="weui-dialog">
+                      <div class="weui-dialog__hd"><strong class="weui-dialog__title">流量说明</strong></div>
+                      <div class="weui-cell__bd" style="margin-bottom:10px;">
+                        <div style="display:block;height:auto;text-align:left;color:rgba(0,0,0,.6);" class="weui-textarea" v-text="infoMessage2"></div>
+                      </div>
+                      <!-- <a style="display:block;margin-top:-15px;margin-bottom:5px;color:rgba(56,121,217,1);" href="http://mp.weixin.qq.com/s/WNQXFO6aw6H54YFK39gR9g">点此查看详情</a> -->
+                      <div class="weui-dialog__ft">
+                          <a @click="cancleShow('iosDialog2')" class="weui-dialog__btn weui-dialog__btn_primary">确 认</a>
+                          <!-- <a  class="weui-dialog__btn weui-dialog__btn_primary">确认</a> -->
+                      </div>
+                  </div>
+              </div>
+              <!--END 编辑说明-->
+          </div>
+      </div>
+    </div>  
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/vue.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/jquery.min.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/main.js"></script>
+  </body>
+</html>

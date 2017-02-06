@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sure" email="Sure@tuiyilin.com">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>口袋流量共享</title>
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/lib/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/main.css">
+  </head>
+  <body>
+    <div class="page" id="page">
+<!--       <div id="makeChoice" v-if="currentPanel.makeChoice">
+        <header>
+          <marquee scrollAmount=10 behavior="scroll" align="absmiddle" width=85% v-text="adMessage"></marquee>
+        </header>
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                    <div class="weui-navbar__item weui-bar__item_on" id="panelOne" @click="changePanel">
+                        <span>流量充值</span>
+                    </div>
+                    <div class="weui-navbar__item" id="panelTwo" @click="changePanel">
+                        <span>充值记录</span>
+                    </div>
+            </div>
+            <div class="weui-tab__panel" v-show="currentPanel.panelOne" id="index_panelOne">
+                    <div class="box_pic">
+                      <img src="images/share.jpg" alt="小口袋就是你的流量啊" width="110" height="auto">
+                    </div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cells__title">手机号码</div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">号码</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="phoneNum" class="weui-input" type="number" @input="checkPhone" maxlength="11" required="required" v-model="phoneNum" placeholder="请输入需要充值的手机号码"/>
+                            </div>
+                        </div>
+                        <div class="weui-cells__title">套餐选择</div>
+                        <div class="weui-cells">
+                            <a class="weui-cell weui-cell_access" href="javascript:;">
+                                <div class="weui-cell__bd">
+                                    <p>浙江移动(全国共享流量)</p>
+                                </div>
+                                <div class="weui-cell__ft">说明</div>
+                            </a>
+                        </div>
+                        <div class="weui-grids">
+                            <a @click="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">500M</div>
+                                <p class="weui-grid__label">￥<span>18.00</span></p>
+                            </a>
+                           <a @click="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">1G</div>
+                                <p class="weui-grid__label">￥<span>28.00</span></p>
+                            </a>
+                           <a @click="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">2G</div>
+                                <p class="weui-grid__label">￥<span>46.00</span></p>
+                            </a>
+                           <a @touchend="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">3G</div>
+                                <p class="weui-grid__label">￥<span>68.00</span></p>
+                            </a>
+                           <a @click="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">4G</div>
+                                <p class="weui-grid__label">￥<span>85.00</span></p>
+                            </a>
+                           <a @click="choiced" class="weui-grid">
+                                <i class="weui-icon-success"></i>
+                                <div class="weui-grid__icon">6G</div>
+                                <p class="weui-grid__label">￥<span>120.00</span></p>
+                            </a>
+                        </div>
+                        <footer><a class="weui-btn weui-btn_primary" @click="postData">立即充值</a></footer>
+                    </div>
+            </div>
+            <div class="weui-tab__panel" v-show="currentPanel.panelTwo" id="index_panelTwo">
+                    <div class="weui-search-bar" id="search_bar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <input type="search" class="weui-search-bar__input" id="search_input" placeholder="搜索" />
+                                <a href="javascript:" class="weui-icon-clear" id="search_clear"></a>
+                            </div>
+                            <label for="search_input" class="weui-search-bar__label" id="search_text">
+                                <i class="weui-icon-search"></i>
+                                <span>搜索</span>
+                            </label>
+                        </form>
+                        <a href="javascript:" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
+                    </div>
+                    <div class="weui-cells weui-cells_access search_show" id="search_show">
+                        <table class="searchTable" cellspacing="0">
+                          <tr class="thead">
+                            <th class="table_a">手机号码</th>
+                            <th class="table_b">流量</th>
+                            <th class="table_c">时间</th>
+                            <th class="table_d">状态</th>
+                          </tr>
+                          <tr>
+                            <td class="table_a">13777837239</td>
+                            <td class="table_b">500M</td>
+                            <td class="table_c">2016.11.30</td>
+                            <td class="table_d">退款(成功)</td>
+                          </tr>
+                          <tr>
+                            <td class="table_a">13777837239</td>
+                            <td class="table_b">500M</td>
+                            <td class="table_c">2016.11.30</td>
+                            <td class="table_d">退款(成功)</td>
+                          </tr>
+                          <tr>
+                            <td class="table_a">13777837239</td>
+                            <td class="table_b">500M</td>
+                            <td class="table_c">2016.11.30</td>
+                            <td class="table_d">退款(成功)</td>
+                          </tr>
+                          <tr>
+                            <td class="table_a">13777837239</td>
+                            <td class="table_b">500M</td>
+                            <td class="table_c">2016.11.30</td>
+                            <td class="table_d">退款(成功)</td>
+                          </tr>
+                        </table>
+                    </div>
+            </div>
+        </div>
+      </div> -->
+<!--       <div id="qrCode" v-if="currentPanel.qrCode">
+        <div class="pocketLogo">
+          <img src="./images/pocket.jpg" alt="口袋高校" width="70" height="auto">
+        </div>
+        <h3>为了更好的体验,扫码关注以继续</h3>
+        <div class="scan">
+          <img src="./images/qrcode.png" alt="扫码关注" width="50%" height="auto">
+        </div>
+        <h4>购买成功后将以公众号消息的形式通知您</h4>
+        <div class="payOrder" @click="changePage">
+          订单号：<span>12093</span>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+            </div>
+        </div>
+      </div> -->
+      <div id="makeSure" v-if="currentPanel.makeSure">
+        <div class="page__bd">
+           <div class="weui-cells__title">订单号：<span v-text="orderNum"></span></div>
+           <div class="weui-cells">
+               <div class="weui-cell">
+                   <div class="weui-cell__bd">
+                       <p>号码</p>
+                   </div>
+                   <div class="weui-cell__ft" v-text="order.phone"></div>
+               </div>
+           </div>
+           <div class="weui-cells__title">套餐选择：</div>
+           <div class="weui-cells">
+               <a class="weui-cell weui-cell_access" href="index.html">
+                   <div class="weui-cell__bd">
+                       <p>浙江移动(全国共享流量)</p>
+                   </div>
+                   <div class="weui-cell__ft"><span class="changeChoice" v-text="order.goods_name"></span></div>
+               </a>
+           </div>
+           <div class="weui-cells__title">充值状态：<span class="info" v-text="order.state"></span></div>
+           <div class="sureFooter">
+             <h3>支付金额：<span>￥</span><span v-text="order.goods_price/100"></span></h3>
+             <a :href="'http://www.pocketuniversity.cn/WxpayAPI/pay/native.php?order_id='+ orderNum" class="weui-btn weui-btn_primary" @click="payOrder">立即支付</a>
+           </div>
+        </div>
+      </div>
+      <div id="paySucess" v-if="currentPanel.paySucess">
+        <div class="page msg_success js_show">
+            <div class="weui-msg">
+                <div class="weui-msg__icon-area">
+                  <i class="weui-icon-success weui-icon_msg"></i>
+                </div>
+                <div class="weui-msg__text-area">
+                    <h2 class="weui-msg__title">支付成功</h2>
+                    <p class="weui-msg__desc">充值成功后会以模板消息形式通知您</p>
+                </div>
+                <div class="weui-msg__opr-area">
+                    <p class="weui-btn-area">
+                      <a href="javascript:WeixinJSBridge.call('closeWindow')" class="weui-btn weui-btn_default">退出</a>
+                    </p>
+                </div>
+                <div class="weui-msg__extra-area">
+                    <div class="weui-footer">
+                        <p class="weui-footer__links">
+                            <a href="http://www.pocketuniversity.cn" class="weui-footer__link">
+                              口袋高校
+                            </a>
+                        </p>
+                        <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>  
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/vue.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/jquery.min.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/pay.js"></script>
+  </body>
+</html>

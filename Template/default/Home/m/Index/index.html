@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>口袋高校</title>
+		<meta name = "viewport" content = "width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/homepage/index.css" media="screen" title="no title">
+	</head>
+	<body>
+		<div id="head-box" style="position:fixed;top:0;z-index:100">
+			<!-- banner -->
+				<div class="banner">
+					<img class="image" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/logo.png" alt="">
+				</div>
+			<!-- head -->
+				<div onclick="toggleDropDownMenu()" style="-webkit-tap-highlight-color:rgba(0,0,0,0);background-color:white;overflow:hidden">
+					<img class="door" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/door.png">
+					<img class="tri" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/up.png">
+					<img class="tri__down" src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/up.png">
+					<p class="tip">点击传送门开始传送</p>
+					<p class="tip tip__door-open">点击下方学校传送到指定公众号</p>
+				</div>
+				<div class="head">
+					<div class="left"></div>
+					<div class="cet">PocketUniversity</div>
+					<div class="right"></div>
+				</div>
+				<div id="midWrapper" class="mid-wrapper">
+					<div id="tabWrapper" class="tab-wrapper">
+						<div id="tabBar" class="tab-bar">
+							<p data-type="0" class="tab-bar_item tab-bar_item__avtive">矩阵高校</p>
+							<p data-type="1" class="tab-bar_item">联盟成员</p>
+						</div>
+					</div>
+					<a href="http://koudaigaoxiao.mikecrm.com/gv30qT" class="no-school-tip">没有你的学校？点此加入口袋联盟</a>
+				</div>
+				<style>
+
+				</style>
+		</div>
+		<div class="qr-code">
+			<img src="http://www.pocketuniversity.cn/Template/default/Home/m/Public/images/0.jpg">
+			<!-- marker -->
+			<p class="marker">长按二维码，识别后即可关注</p>
+		</div>
+		<div class="animation-wrapper">
+			<div id="juZhen" class="school juzhen-list">
+				<ul class="drop-down-menu left-menu in-left">
+					<li data-id="PocketUniversity">口袋大学</li>
+					<li data-id="pockethd">杭州电子科技大学</li>
+					<li data-id="shidazhushou">浙江师范大学</li>
+					<li data-id="pocketzlg">浙江理工大学</li>
+					<li data-id="pocketjl">中国计量大学</li>
+					<li data-id="pocketcm">浙江传媒学院</li>
+					<li data-id="pocketzc">浙江财经大学</li>
+					<li data-id="pocketgs">浙江工商大学</li>
+					<li data-id="pocketsx">杭州师范大学</li>
+					<li data-id="pocketzju">浙江大学</li>
+					<li data-id="pocketgd">浙江工业大学</li>
+					<li data-id="pocketcaa">中国美术学院</li>
+					<li data-id="PocketZCMU">浙江中医药大学</li>
+					<li data-id="PocketZJIET">浙江经贸职业技术学院</li>
+					<li data-id="PocketZJTIE">浙江经济职业技术学院</li>
+					<li data-id="PocketZFC">浙江金融职业学院</li>
+					<li data-id="PocketHZVTC">杭州职业技术学院</li>
+					<li data-id="PocketZJYYC">浙江育英职业技术学院</li>
+					<li data-id="PocketZJWEU">浙江水利水电学院</li>
+					<li data-id="koudaijidian">浙江机电职业技术学院</li>
+					<li data-id="PocketZJJY">浙江警官职业学院</li>
+					<li data-id="PocketZUCC">浙江大学城市学院</li>
+					<li data-id="PocketZUST">浙江科技学院</li>
+					<li data-id="PocketZJFC">浙江农林大学</li>
+					<li data-id="pocketnbu">宁波大学</li>
+					<li data-id="PocketLSU">丽水学院</li>
+					<li data-id="PocketSUDA">苏州大学</li>
+					<li data-id="pocketszkj">苏州科技大学</li>
+					<li data-id="pocketjssvc">苏州职业大学</li>
+					<li data-id="PocketSZAI ">苏州农业职业技术学院</li>
+					<li data-id="pocketsiit ">苏州工业职业技术学院</li>
+					<li data-id="pocketchd">长安大学</li>
+					<li data-id="pocketnwnu">西北师范大学</li>
+				</ul>
+				<ul class="drop-down-menu right-menu in-right">
+					<li data-id="PocketUniversity">口袋大学</li>
+					<li data-id="pockethd">杭州电子科技大学</li>
+					<li data-id="shidazhushou">浙江师范大学</li>
+					<li data-id="pocketzlg">浙江理工大学</li>
+					<li data-id="pocketjl">中国计量大学</li>
+					<li data-id="pocketcm">浙江传媒学院</li>
+					<li data-id="pocketzc">浙江财经大学</li>
+					<li data-id="pocketgs">浙江工商大学</li>
+					<li data-id="pocketsx">杭州师范大学</li>
+					<li data-id="pocketzju">浙江大学</li>
+					<li data-id="pocketgd">浙江工业大学</li>
+					<li data-id="pocketcaa">中国美术学院</li>
+					<li data-id="PocketZCMU">浙江中医药大学</li>
+					<li data-id="PocketZJIET">浙江经贸职业技术学院</li>
+					<li data-id="PocketZJTIE">浙江经济职业技术学院</li>
+					<li data-id="PocketZFC">浙江金融职业学院</li>
+					<li data-id="PocketHZVTC">杭州职业技术学院</li>
+					<li data-id="PocketZJYYC">浙江育英职业技术学院</li>
+					<li data-id="PocketZJWEU">浙江水利水电学院</li>
+					<li data-id="koudaijidian">浙江机电职业技术学院</li>
+					<li data-id="PocketZJJY">浙江警官职业学院</li>
+					<li data-id="PocketZUCC">浙江大学城市学院</li>
+					<li data-id="PocketZUST">浙江科技学院</li>
+					<li data-id="PocketZJFC">浙江农林大学</li>
+					<li data-id="pocketnbu">宁波大学</li>
+					<li data-id="PocketLSU">丽水学院</li>
+					<li data-id="PocketSUDA">苏州大学</li>
+					<li data-id="pocketszkj">苏州科技大学</li>
+					<li data-id="pocketjssvc">苏州职业大学</li>
+					<li data-id="PocketSZAI ">苏州农业职业技术学院</li>
+					<li data-id="pocketsiit ">苏州工业职业技术学院</li>
+					<li data-id="pocketchd">长安大学</li>
+					<li data-id="pocketnwnu">西北师范大学</li>
+				</ul>
+			</div>
+			<div id="lianMeng" class="school lianmeng-list">
+				<ul class="drop-down-menu left-menu in-left">
+					<li data-id="gh_aee726515b29">单身狗展览馆</li>
+					<li data-id="gh_cc0a405b46e5">航大微生活</li>
+					<li data-id="gh_5e0393a22241">big兰州校园平台</li>
+					<li data-id="gh_97694dacb8d1">普洱校园</li>
+					<li data-id="gh_7a09e40dbb92">自来野</li>
+					<li data-id="gh_1c3c658bc5e6">叫我学长就好</li>
+					<li data-id="gh_278435517cd5">桐梓学联</li>
+					<li data-id="gh_b87a6ac36154">安庆师大助手</li>
+					<li data-id="gh_a2f7e3a360d0">山大那些事</li>
+					<li data-id="gh_b03614265d7f">BC校园</li>
+					<li data-id="gh_178d8eb3691c">随梦深信</li>
+					<li data-id="gh_1b4b9970f0bf">南师助手</li>
+					<li data-id="gh_4e7e076b39c1">Stusz</li>
+				</ul>
+				<ul class="drop-down-menu right-menu in-right">
+					<li data-id="gh_aee726515b29">单身狗展览馆</li>
+					<li data-id="gh_cc0a405b46e5">航大微生活</li>
+					<li data-id="gh_5e0393a22241">big兰州校园平台</li>
+					<li data-id="gh_97694dacb8d1">普洱校园</li>
+					<li data-id="gh_7a09e40dbb92">自来野</li>
+					<li data-id="gh_1c3c658bc5e6">叫我学长就好</li>
+					<li data-id="gh_278435517cd5">桐梓学联</li>
+					<li data-id="gh_b87a6ac36154">安庆师大助手</li>
+					<li data-id="gh_a2f7e3a360d0">山大那些事</li>
+					<li data-id="gh_b03614265d7f">BC校园</li>
+					<li data-id="gh_178d8eb3691c">随梦深信</li>
+					<li data-id="gh_1b4b9970f0bf">南师助手</li>
+					<li data-id="gh_4e7e076b39c1">Stusz</li>
+				</ul>
+			</div>
+		</div>
+
+	<!-- technology -->
+		<div class="technology">
+			<p>@ Power By 口袋高校</p>
+		</div>
+		<!-- 维护 -->
+
+		<!-- 维护 -->
+		<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+	</body>
+	<script>
+		// global
+		var LISTTYPE = 0,
+			TIMEOUT = null
+
+		//　获取dom
+		var qrImg = $('.qr-code img'),
+			drowDownMenu = $('.school'),
+			jZDrowDownMenu = $('#juZhen'),
+			lMDrowDownMenu = $('#lianMeng'),
+			qrCode = $('.qr-code'),
+			jZLeftMenu = $('#juZhen .left-menu'),
+			jZRightMenu = $('#juZhen .right-menu'),
+			lMLeftMenu = $('#lianMeng .left-menu'),
+			lMRightMenu = $('#lianMeng .right-menu'),
+			midWrapper = $('#midWrapper')
+
+		window.addEventListener('load', function() {
+				//动态调整一部分 UI, 适配
+			  var headBoxHeight = $('#head-box').offsetHeight + 'px';
+			  	midWrapper.style.visibility = 'visible';
+				midWrapper.style.display = 'none'
+				// jZDrowDownMenu.style.marginTop = headBoxHeight;
+				// lMDrowDownMenu.style.marginTop = headBoxHeight;
+				jZDrowDownMenu.style.top = headBoxHeight;
+				lMDrowDownMenu.style.top = headBoxHeight;
+
+				var marginHeight = $('html').offsetHeight - $('#head-box').offsetHeight - qrCode.offsetHeight - 30;
+				qrCode.style.marginTop = marginHeight/2 + $('#head-box').offsetHeight - 50 + 'px';
+		})
+
+		//　点击开门关门
+		function toggleDropDownMenu() {
+
+			_this = drowDownMenu;
+
+			//　第一次点击开门，　之前没有设置 data 属性
+			//　根据　这个　data　属性，判断学校列表显示还是隐藏
+			if(!_this.dataset.menu) {
+				// drowDownMenu.show();
+				showList('first')
+				$('#midWrapper').show()
+				// need a hack to fix a bug, just use timeout
+				timeout(function() {
+					menuMove(0);
+					qrCode.hide();
+					_this.dataset.menu = 'show';
+				}, 100)
+
+				return
+			}
+
+			if(_this.dataset.menu == 'hide') {
+
+				// drowDownMenu.show()
+				showList('first')
+				$('#midWrapper').show()
+
+				timeout(function() {
+					menuMove(0);
+					qrCode.hide()
+					_this.dataset.menu = 'show';
+				}, 100)
+
+			}else if(_this.dataset.menu == 'show'){
+
+				menuMove(-100);
+				// 开门动画总共 500ms 提前100ms隐藏学校列表
+				timeout(function() {
+					// drowDownMenu.hide()
+					showList('first')
+					$('#midWrapper').hide()
+					qrCode.show()
+				}, 400)
+				_this.dataset.menu = 'hide';
+			}
+		}
+
+		// 选择学校　事件委托
+		jZDrowDownMenu.addEventListener('click', chooseSchool)
+		lMDrowDownMenu.addEventListener('click', chooseSchool)
+
+		function chooseSchool(e) {
+			if(e.target.tagName !== 'LI') {
+				return;
+			}
+
+			$('.marker').show();
+
+			menuMove(-100);
+			drowDownMenu.dataset.menu = 'hide';
+
+			//　点击后，动画开始，这里通过定时器在不同时刻做不同动作，满足需求
+			timeout(function() {
+				qrCode.show()
+				window.scrollTo(0,0);  // fix sreen shine problem
+			}, 300);
+
+            $('#midWrapper').hide()
+			timeout(function() {
+				drowDownMenu.hide()
+			}, 500);
+
+			// 切换二维码图片
+			qrImg.src = 'http://open.weixin.qq.com/qr/code/?username=' + e.target.dataset.id;
+		}
+
+		// 切换tab
+		$('#tabWrapper').onclick = switchTab
+		function switchTab(e) {
+			window.scrollTo(0,0);
+			var target = e.target,
+				tagName = target.tagName.toLowerCase(),
+				tabItems = document.querySelectorAll('.tab-bar_item')
+
+			var type = target.dataset.type
+			if(tagName != 'p') {
+				return
+			}
+			if(type == LISTTYPE) {
+				return
+			}
+
+			for(var i = 0; i < tabItems.length; i ++) {
+				tabItems[i].classList.remove('tab-bar_item__avtive')
+			}
+			target.classList.add('tab-bar_item__avtive')
+
+
+			LISTTYPE = parseInt(type)
+			showList()
+
+		}
+		function showList(type) {
+			var list = document.querySelectorAll('.school')
+			// for(var i = 0; i < list.length; i ++) {
+			// 	$(list[i]).classList.add('slide__left')
+			// 	$(list[i]).classList.add('slide__left')
+			// }
+
+			$(list[LISTTYPE]).show()
+			if(type != 'first') {
+				// $('body').style.overflowY = 'hidden'
+				if(LISTTYPE == 1) {
+					$(list[0]).classList.remove('right2leftfrom100')
+					$(list[1]).classList.remove('right2leftfrom0')
+					$(list[0]).classList.add('left2rightfrom0')
+					$(list[1]).classList.add('left2rightfrom100')
+				}else {
+					$(list[0]).classList.remove('left2rightfrom0')
+					$(list[1]).classList.remove('left2rightfrom100')
+					$(list[0]).classList.add('right2leftfrom100')
+					$(list[1]).classList.add('right2leftfrom0')
+				}
+
+				if(TIMEOUT) {
+					clearTimeout(TIMEOUT)
+					TIMEOUT = null
+				}
+				TIMEOUT = setTimeout(function () {
+					$(list[1-LISTTYPE]).hide()
+					// $('body').style.overflowY = 'auto'
+					$(list[0]).classList.remove('left2rightfrom0')
+					$(list[1]).classList.remove('left2rightfrom100')
+					$(list[0]).classList.remove('right2leftfrom100')
+					$(list[1]).classList.remove('right2leftfrom0')
+				}, 550)
+			}else {
+				$(list[1-LISTTYPE]).hide()
+			}
+
+
+
+
+		}
+		function hideList() {
+			var list = document.querySelectorAll('.school')
+			for(var i = 0; i < list.length; i ++) {
+				$(list[i]).hide()
+			}
+		}
+
+		// 封装一下
+		function menuMove(pos) {
+			if(pos == 0) {
+				$('#head-box').classList.add('door-open')
+			}else {
+				$('#head-box').classList.remove('door-open')
+				setTimeout(function () {
+					hideList()
+				}, 400)
+			}
+			jZLeftMenu.style.left = pos + '%';
+			jZRightMenu.style.right =  pos + '%';
+			lMLeftMenu.style.left = pos + '%';
+			lMRightMenu.style.right =  pos + '%';
+		}
+
+		// 工具函数
+		function timeout(cb, time) {
+			setTimeout(cb, time);
+		}
+		function $(selector) {
+			if(typeof selector !== 'string' && typeof selector !== 'object') {
+				console.error('arg need a selector or node object')
+				return
+			}
+
+			var dom = typeof selector === 'string' ? document.querySelector(selector) : selector;
+			dom.show = show;
+			dom.hide = hide;
+			return dom;
+		}
+		function show(){
+			this.style.display = 'block'
+		}
+		function hide(){
+			this.style.display = 'none'
+		}
+	</script>
+</html>

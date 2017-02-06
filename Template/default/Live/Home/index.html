@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>弹幕互动</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
+    <script src="http://weixiao.qq.com/js/MTAH5/stats.js" id="WXH5" sid="500367298"></script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+  </head>
+  <body>
+    <app></app>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState != 4) {
+        return
+      }
+      if(xhr.status != 200) {
+        return
+      }
+
+      var res = JSON.parse(xhr.responseText)
+      wx.config({
+          debug: false,
+          appId: res.appId,
+          timestamp: res.timestamp,
+          nonceStr: res.nonceStr,
+          signature: res.signature,
+          jsApiList: [
+          	'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'hideAllNonBaseMenuItem',
+            'showMenuItems'
+          ]
+      })
+
+      wx.ready(function () {
+        wx.hideAllNonBaseMenuItem()
+        console.log('success')
+      })
+      wx.error(function () {
+        console.log('error')
+      })
+
+    }
+    xhr.open("POST", "/wechatShare.php")
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;")
+    xhr.send("url=" + encodeURIComponent(location.href.split('#')[0]))
+  </script>
+    <script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.0.js"></script>
+  <script type="text/javascript" src="http://static.pocketuniversity.cn/kdgx/DanmuInteraction/publish/js/bundle.js"></script></body>
+</html>

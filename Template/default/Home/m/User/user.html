@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="口袋高校，大学生内容创业服务平台专注打造高校新媒体矩阵，最具性价比的校园营销渠道">
+    <meta name="description" content="口袋高校，隶属于苏州扶摇信息科技有限公司，是国内领先新媒体运营机构，专注于全国高校新媒体运营和发展。公司旗下拥有近百个矩阵式高校新媒体账号，高校数量及用户数量每天都在稳步上增。口袋高校旗下有“口袋”“微在”及“圈圈”三大校园微信品牌，得天独厚的的高校新媒体资源是开展各项业务的保证，我们希望并将带领全国众多大学生新媒体运营者一起迈向“低成本小型创业”之路。">
+    <meta name="keyword" content="口袋, 口袋高校, 内容创业服务平台">
+    <title>口袋高校</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css">
+
+  <style>
+    body,html{
+      margin: 0;
+      padding: 0
+    }
+    .page{
+      background-color: #f8f8f8;
+      padding-bottom: 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+  /*header*/
+    .header{
+      background-color: #3abe64;
+      overflow: hidden;
+      padding-bottom: 15px;
+    }
+    .head-wrapper{
+      width: 80px;
+      height: 80px;
+      margin: 10px auto;
+      border-radius: 100%;
+      border: 7px solid rgba(99, 218, 99, 0.5);
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .head{
+      width: 66px;
+      height: 66px;
+      border-radius: 100%;
+      display: block;
+      margin: 0 auto;
+      border: 7px solid rgba(99, 218, 99, 0.3);
+    }
+    .header-text{
+      text-align: center;
+      color: white;
+    }
+    .username{
+      font-size: 20px;
+    }
+    .user-school{
+      font-size: 14px;
+      color: #efeff4;
+    }
+    .weui-cells__title{
+      margin-bottom: 0.77em
+    }
+  /*header end*/
+
+  /*user infomation*/
+    .weui-label{
+      width: 80px;
+    }
+    .text-right{
+      text-align: right;
+    }
+    .disable {
+      color: black;
+    }
+    .birthday {
+      font-size: 16px;
+    }
+    .weui-vcode-btn {
+      color: #3abe64;
+    }
+    .special-select{
+      color: white;
+    }
+    .mask{
+      width: initial;
+      position: absolute;
+      right: 35px;
+      height: 100%;
+      text-align: right;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .confirm{
+      margin-top: 40px;
+      background-color: #3abe64
+    }
+    #binding-box{
+      /*width: 2rem;*/
+      /*padding: 0 0.6em;*/
+      /*background-color: green;*/
+      width: 85px;
+      height: 44px;
+      font-size: 17px;
+
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+    #binding{
+      width: 78%;
+      height: 80%;
+      display: block;
+      margin: 0 auto;
+      color: white;
+      background-color: #3abe64;
+      text-align: center;
+      line-height: 40px;
+      padding: 0 0.3em;
+      border-radius: 5px;
+    }
+  /*user infomation end*/
+
+  </style>
+</head>
+<body>
+    <div class="page">
+      <!-- header -->
+        <div class="header">
+          <div class="head-wrapper">
+            <!-- <div class="cir"> -->
+              <img id="header_img" class="head" src="" />
+            <!-- </div> -->
+          </div>
+          <p id="nick" class="header-text username">
+            姓名
+          </p>
+          <p id="school" class="header-text user-school">
+            学校
+          </p>
+        </div>
+      <!-- header end-->
+
+
+        <!-- infomation -->
+      <div class="weui-cells__title">个人信息</div>
+      <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">性别</label></div>
+                <div class="weui-cell__bd">
+                  <p id="sex" class="text-right weui-input">性别</p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div id="concact" class="weui-cell__hd"><label for="" class="weui-label">手机号</label></div>
+                <div class="weui-cell__bd">
+                  <p id="phone" class="text-right weui-input">手机号</p>
+                </div>
+            </div>
+      </div>
+      <div class="weui-cells__title">其他信息</div>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">生日</label></div>
+            <div class="weui-cell__bd">
+              <p id="birthday" class="text-right weui-input">
+                <span id="birth_y"></span>年
+                <span id="birth_m"></span>月
+                <span id="birth_d"></span>日
+              </p>
+            </div>
+        </div>
+          <div class="weui-cell">
+              <div class="weui-cell__hd"><label for="" class="weui-label">星座</label></div>
+              <div class="weui-cell__bd">
+                <p id="xingzuo" class="text-right weui-input">星座</p>
+              </div>
+          </div>
+      </div>
+
+      <div class="weui-cells__title">自我描述</div>
+      <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p id="text2" class="weui-input">自我描述</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+<script>
+  // 从cookie获取uid
+  var uid = parseCookie().getmanuid
+  // alert(uid)
+  // console.log(uid)
+
+  getUserInfo()
+
+  window.onload = function () {
+  	var oPage = document.querySelector('.page')
+  	oPage.scrollTop = 2
+
+  	var bottom = oPage.scrollHeight - oPage.offsetHeight
+  	oPage.onscroll = function () {
+  		if(this.scrollTop <= 2) {
+  			this.scrollTop = 2
+  		}
+
+  		if(oPage.scrollTop >= bottom - 2) {
+  			oPage.scrollTop = bottom - 2
+  		}
+  	}
+
+  }
+
+  function parseCookie() {
+      var cookieObj = {}
+      var temArr = document.cookie.split(';')
+      temArr.forEach(function (item, index) {
+          var temArr = item.split('=')
+          cookieObj[temArr[0].trim()] = temArr[1].trim()
+      })
+      return cookieObj
+  }
+
+  function getUserInfo() {
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState !== 4 || xhr.status !== 200) {
+        return
+      }
+      var info = JSON.parse(xhr.responseText)
+      setInfo(info)
+      document.querySelector('#xingzuo').innerText = birthToConstellation(info.birth_y + '-' + info.birth_m + '-' +info.birth_d)
+    }
+    xhr.open('POST', '/index.php/home/user/getUserInfo')
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;")
+    xhr.send('uid=' + uid)
+  }
+
+  function setInfo(data) {
+    var userInfo = data
+    for(var item in userInfo) {
+      if(item == 'header_img') {
+        document.querySelector('#header_img').src = data[item]
+        continue
+      }
+      if(item == 'sex') {
+        document.querySelector('#sex').innerText = data[item] == '0' ? '男' : '女'
+        continue
+      }
+      try {
+        document.querySelector('#' + item).innerText = data[item]
+      } catch (e) {
+      }
+    }
+  }
+
+  // birthToConstellation()
+
+  function parse(url) {
+    var json = {}
+    var arr = url.substr(url.indexOf('?') + 1).split('&')
+    arr.forEach(function(item) {
+      var tmp = item.split('=')
+      json[tmp[0]] = tmp[1]
+    })
+    return json
+  }
+    // 进入二级验证页
+  // function modify() {
+  //   window.location.replace('http://www.pocketuniversity.cn/index.php/home/login/info?act=modify&uid=' + uid)
+  // }
+
+  function birthToConstellation(birthString) {
+    var birthday = new Date(birthString),
+        month = birthday.getMonth() + 1,
+        day = birthday.getDate()
+    if(!month) {
+      return '未设置'
+    }
+
+    var birth = parseInt(month.toString() + (day.toString().length === 1 ? '0' + day.toString() : day.toString()) )
+    var constellation = ''
+    if(birth >= 321 && birth <= 419) {
+      constellation = '白羊座'
+    }else if (birth >= 420 && birth <= 520) {
+      constellation = '金牛座'
+    }else if (birth >= 521 && birth <= 621) {
+      constellation = '双子座'
+    }else if (birth >= 622 && birth <= 722) {
+      constellation = '巨蟹座'
+    }else if (birth >= 723 && birth <= 822) {
+      constellation = '狮子座'
+    }else if (birth >= 823 && birth <= 922) {
+      constellation = '处女座'
+    }else if (birth >= 923 && birth <= 1023) {
+      constellation = '天秤座'
+    }else if (birth >= 1024 && birth <= 1122) {
+      constellation = '天蝎座'
+    }else if (birth >= 1123 && birth <= 1221) {
+      constellation = '射手座'
+    }else if (birth >= 120 && birth <= 218) {
+      constellation = '水瓶座'
+    }else if (birth >= 219 && birth <= 320) {
+      constellation = '双鱼座'
+    }else {
+      constellation = '摩羯座'
+    }
+
+    return constellation
+  }
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script>
+    // jssdk
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
+      if(xhr.readyState != 4) {
+        return
+      }
+      if(xhr.status != 200) {
+        console.log('wx error')
+        return
+      }
+
+      res = JSON.parse(xhr.responseText)
+      wx.config({
+          debug: false,
+          appId: res.appId,
+          timestamp: res.timestamp,
+          nonceStr: res.nonceStr,
+          signature: res.signature,
+          jsApiList: [
+            'hideOptionMenu'
+          ]
+      })
+      // 一定在ready里调用，否则可能不生效
+      wx.ready(function () {
+      	console.log('success')
+        wx.hideOptionMenu()
+      })
+      wx.error(function () {
+        console.log('error')
+      })
+
+    }
+    xhr.open("POST", "/wechatShare.php")
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;")
+    xhr.send("url=" + encodeURIComponent(location.href.split('#')[0]))
+  </script>
+</html>

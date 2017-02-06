@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name = "format-detection" content="telephone=no">
+    <meta name="description" content="口袋高校，大学生内容创业服务平台专注打造高校新媒体矩阵，最具性价比的校园营销渠道">
+    <meta name="description" content="口袋高校，隶属于苏州扶摇信息科技有限公司，是国内领先新媒体运营机构，专注于全国高校新媒体运营和发展。公司旗下拥有近百个矩阵式高校新媒体账号，高校数量及用户数量每天都在稳步上增。口袋高校旗下有“口袋”“微在”及“圈圈”三大校园微信品牌，得天独厚的的高校新媒体资源是开展各项业务的保证，我们希望并将带领全国众多大学生新媒体运营者一起迈向“低成本小型创业”之路。">
+    <meta name="keyword" content="口袋, 口袋高校, 内容创业服务平台">
+    <title>口袋高校</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  </head>
+  <body>
+    <div class="page man-color">
+        <!-- header  -->
+        <div class="header">
+          <img id="photo_src" src="" alt="user head" />
+        </div>
+        <!-- header end -->
+
+        <!-- infomation -->
+        <div class="info-box">
+            <div class="weui-cells__title">个人信息</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>姓名</p>
+                    </div>
+                    <div id="name" class="weui-cell__ft"></div>
+                </div>
+                <a class="weui-cell" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>学校</p>
+                    </div>
+                    <div id="school" class="weui-cell__ft"></div>
+                </a>
+                <!-- 星座 -->
+                <a class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>星座</p>
+                    </div>
+                    <div id="star" class="weui-cell__ft"></div>
+                </a>
+                <!-- 星座 -->
+            </div>
+        </div>
+        <!-- infomation -->
+
+        <!-- self des -->
+        <div class="self-box">
+            <div class="weui-cells__title">自我描述</div>
+            <div class="textarea-cell weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p id="introduce" class="weui-textarea">
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- self des -->
+
+        <!-- wish -->
+        <div class="self-box">
+            <div class="weui-cells__title">对另一半的期望</div>
+            <div class="textarea-cell weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <!-- <textarea id="expect" class="weui-textarea" placeholder="你期待的另一半是什么样的？" rows="3"></textarea> -->
+                        <p id="expect" class="weui-textarea">
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- wish -->
+
+        <!-- bottom btn -->
+        <a id="share" class="confirm-btn btn weui-btn">分享出去</a>
+        <a id="contact" class="confirm-btn btn weui-btn">要TA的联系方式</a>
+        <a id="help-share" class="confirm-btn btn weui-btn">帮TA分享出去</a>
+        <!-- bottom btn -->
+
+        <div class="mask">
+          <img src="./img/pyq.png" alt="" />
+          <p>
+            戳一下右上角 <br>
+            点击分享到朋友圈就好啦
+          </p>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+  </body>
+  <script>
+
+    //ui
+    if(localStorage.view == 0) {
+      $('#contact').hioe()
+      $('#help-share').hioe()
+      localStorage.view = 1
+    }
+    // $('.header').css('height', $('.header').offsetWidth + 'px')
+    $('.header').style.height = $('.header').offsetWidth + 'px'
+    // ui end
+    var hash = location.hash
+    var hashObj = parseQueryString(hash)
+// console.log(hashObj);
+
+
+    function getForm() {
+      var xhr = new XMLHttpRequest()
+      xhr.onreadystatechange = function () {
+        if(xhr.readyState !== 4 || xhr.status !==200) {
+          return
+        }
+
+        // console.log(xhr.responseText);
+        var res = JSON.parse(xhr.responseText)
+
+        for(var item in res) {
+          if(item == 'photo_src') {
+            $('#' + item).src = res[item]
+            continue
+          }
+          $('#' + item).innerText = res[item]
+        }
+      }
+
+      xhr.open('GET', 'http://www.pocketuniversity.cn/index.php/home/Partner/getData?formid=' + formid)
+      xhr.send()
+    }
+
+    function parseQueryString(query) {
+      let queryObj = {}
+      let arr = query.substr(query.indexOf('?') + 1).split('&')
+      arr.forEach(function(item) {
+        let tmp = item.split('=')
+        queryObj[tmp[0]] = tmp[1]
+      })
+      return queryObj
+    }
+
+    function $(selector) {
+      if(typeof selector !== 'string' && typeof selector !== 'object') {
+        console.error('arg need a selector or node object')
+        return
+      }
+
+      let node = typeof selector === 'string' ? document.querySelector(selector) : selector
+
+      // functions
+      node.show = function () {
+        this.style.display = 'block'
+        return this
+      }
+      node.hasShow = function () {
+        return this.style.display === 'block' ? true : false
+      }
+      node.hide = function () {
+        this.style.display = 'none'
+        return this
+      }
+      node.text = function (text) {
+        this.innerText = text
+        return this
+      }
+      node.css = function (prop, val) {
+        this.style[prop] = val
+        return this
+      }
+
+      return node
+    }
+
+  </script>
+</html>

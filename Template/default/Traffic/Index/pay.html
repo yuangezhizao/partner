@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sure" email="Sure@tuiyilin.com">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>口袋流量共享</title>
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/lib/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/css/main.css">
+  </head>  
+  <body>  
+    <div class="page" id="page">
+      <div id="qrCode" v-show="currentPanel.qrCode">
+        <div class="pocketLogo">
+          <img src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/images/pocket.jpg" alt="口袋高校" width="70" height="auto"> 
+        </div> 
+        <h3>扫码二维码，即可完成支付</h3> 
+        <div class="scan">
+          <img src="" alt="扫码关注" id="qrImage" width="40%" height="auto">
+        </div>
+        <h4>完成充值后将以模板消息的形式通知您</h4>
+        <div class="payOrder" data-ordernum="{{orderNum}}" @click="checkState">
+          <span>点此查询订单状态</span>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                </p>
+                <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+            </div>
+        </div>
+      </div>
+      <div id="makeSure" v-show="currentPanel.makeSure">
+        <div class="page__bd">
+           <div class="weui-cells__title">订单号：<span v-text="orderNum"></span></div>
+           <div class="weui-cells">
+               <div class="weui-cell">
+                   <div class="weui-cell__bd">
+                       <p>号码</p>
+                   </div>
+                   <div class="weui-cell__ft" v-text="order.phone"></div>
+               </div> 
+           </div> 
+           <div class="weui-cells__title">套餐选择：</div>
+           <div class="weui-cells">
+               <a class="weui-cell weui-cell_access" href="/index.php/traffic/index">
+                   <div class="weui-cell__bd">
+                       <p v-if="order.goods_type == 1">浙江移动(全国共享流量)</p>
+                       <p v-if="order.goods_type == 2">浙江电信(全国流量直充)</p>
+                   </div>
+                   <div class="weui-cell__ft"><span class="changeChoice" v-text="order.goods_name"></span></div>
+               </a> 
+           </div>
+           <div class="weui-cells__title">充值状态：<span class="info" v-text="order.state | state"></span></div>
+           <div class="sureFooter">
+             <h3>支付金额：<span>￥</span><span v-text="order.goods_price/100"></span></h3>
+             <a class="weui-btn weui-btn_primary" @click="payOrder">立即支付</a>
+           </div>
+        </div>
+      </div>
+      <div id="paySucess" v-show="currentPanel.paySucess">
+        <div class="page msg_success js_show">
+            <div class="weui-msg">
+                <div class="weui-msg__icon-area">
+                  <i class="weui-icon-success weui-icon_msg"></i>
+                </div>
+                <div class="weui-msg__text-area">
+                    <h2 class="weui-msg__title">支付成功</h2>
+                    <p class="weui-msg__desc">充值成功后会以模板消息形式通知您</p>
+                </div>
+                <div class="weui-msg__opr-area"> 
+                    <p class="weui-btn-area">
+                      <a href="javascript:WeixinJSBridge.call('closeWindow')" class="weui-btn weui-btn_default">退出</a>
+                    </p>
+                </div>
+                <div class="weui-msg__extra-area">
+                    <div class="weui-footer">
+                        <p class="weui-footer__links">
+                            <a href="http://www.pocketuniversity.cn" class="weui-footer__link">
+                              口袋高校
+                            </a>
+                        </p>
+                        <p class="weui-footer__text">Copyright &copy;2014-2016 pocketuniversity.cn</p>
+                    </div>
+                </div>
+            </div>
+        </div> 
+      </div>
+      <div class="dialog hide" id="check_state"> 
+          <div id="dialogs">
+              <!--BEGIN 状态查询-->
+              <div class="js_dialog" id="iosDialog" style="opacity:1;">
+                  <div class="weui-mask"></div>
+                  <div class="weui-dialog">
+                      <div class="weui-dialog__hd"><strong class="weui-dialog__title">订单状态</strong></div>
+                      <div class="weui-cell__bd" style="margin-bottom:10px;">
+                        <div style="display:block;height:auto;text-align:left;color:rgba(0,0,0,.6);" class="weui-textarea" v-text="check_state"></div>
+                      </div>
+                      <div class="weui-dialog__ft">  
+                          <a @click="checkOver" data-state="{{thisState}}" class="weui-dialog__btn weui-dialog__btn_primary" v-text="buttonMsg"></a>
+                          <!-- <a  class="weui-dialog__btn weui-dialog__btn_primary">确认</a> -->
+                      </div>
+                  </div>
+              </div> 
+              <!--END 状态查询-->
+          </div>
+      </div>
+    </div>  
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/vue.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/lib/jquery.min.js"></script>
+    <script src="http://static.pocketuniversity.cn/kdgx/PocketTraffic/1.0/src/js/pay.js"></script>
+  </body>
+</html>

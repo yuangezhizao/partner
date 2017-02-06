@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加提现账号成功</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
+    <script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.0.js"></script>
+    <script>
+        _kd.remAdjust()
+    </script>
+    <style>
+    /*弹出page*/
+    .page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        font-size: 14px;
+        font-family: 'HeitiSC-Medium,MicrosoftYaHei';
+        background-color: #f8f8f8;
+    }
+
+    .page__hd {
+        padding: 40px;
+    }
+    .page__title {
+        font-size: 1.8em;
+    }
+
+    .page .tip {
+        color: black;
+        font-size: .2rem;
+    }
+    .my-cells {
+        margin-top: 50px;
+    }
+    .my-msg {
+        padding-top: .25rem;
+    }
+    .vip-page .tip, .page .vip-tip {
+        display: none;
+    }
+    .vip-page .vip-tip {
+        display: block;
+        font-size: .16rem;
+    }
+    .page .sub-tip {
+        font-size: .16rem;
+        color: rgb(49, 173, 55);
+    }
+    .page .my-btn {
+        margin-top: 50px;
+    }
+    .page .opera-area {
+        margin-top: 30px;
+    }
+    .page .opera-btn {
+        width: 79%;
+        line-height: 2;
+        border-radius: 3px;
+        font-size: .22rem;
+    }
+    .page .go-on-btn_input {
+        width: 90%;
+    }
+    .page .opera-btn::after {
+        display: none;
+    }
+    .page .my-btn-area {
+        margin-top: .5rem;
+    }
+    .page .go-on-btn {
+        background-color: rgb(70, 179, 95);
+    }
+    .page .exit-btn {
+        background: rgb(239, 239, 239);
+        color: rgb(181, 181, 182);
+    }
+    .my-msg__icon-area {
+        margin-bottom: 15px;
+    }
+    .page i {
+        font-size: 1.6rem;
+        color: rgb(70, 179, 95);
+    }
+    .page .footer {
+        margin: 0;
+        -webkit-transform: scale(.7);
+                transform: scale(.7);
+    }
+    /*弹出page*/
+    </style>
+</head>
+<body>
+    <!-- 填写手机号 -->
+    <div id="inputPhone" class="page page__input-phone msg_success js_show" style="display:none">
+        <div class="page__hd">
+            <h1 class="page__title">请填写手机号完成绑定</h1>
+            <!-- <p class="page__desc">表单输入</p> -->
+        </div>
+        <div class="my-cells weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请输入手机号">
+                </div>
+            </div>
+        </div>
+        <div class="opera-area weui-msg__opr-area">
+            <p class="my-btn-area weui-btn-area">
+                <a id="confirmBinding" class="opera-btn go-on-btn go-on-btn_input weui-btn weui-btn_primary">确认绑定</a>
+            </p>
+        </div>
+        <div class="footer weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2014-2016 pocketuniversity.cn</p>
+            </div>
+        </div>
+    </div>
+    <!-- 填写手机号 -->
+    <!-- 成功提示 -->
+    <div id="paySuccess" class="page page__success msg_success js_show">
+        <div class="my-msg weui-msg">
+            <div class="my-msg__icon-area weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+            <div class="weui-msg__text-area" style="margin: 40px 0px;">
+                <h2 class="tip weui-msg__title">添加提现账号成功</h2>
+                <p class="sub-tip weui-msg__desc">请回到PC端提现页面，刷新后继续操作</p>
+            </div>
+            <div class="opera-area weui-msg__opr-area">
+                <p class="my-btn-area weui-btn-area">
+                    <a href="javascript:WeixinJSBridge.call('closeWindow')" id="goOn" class="opera-btn go-on-btn weui-btn weui-btn_primary">确定</a>
+                    <!-- <a id="back" class="opera-btn exit-btn weui-btn weui-btn_default">确定</a> -->
+                </p>
+            </div>
+            <div class="footer weui-msg__extra-area">
+                <div class="weui-footer">
+                    <p class="weui-footer__links">
+                        <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                    </p>
+                    <p class="weui-footer__text">Copyright © 2014-2016 pocketuniversity.cn</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 成功提示 -->
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Sure" email="Sure@tuiyilin.com">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<title>口袋榜单修改数据</title>
+	<link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body{
+			font-family: "微软雅黑";
+		}
+		table td,table th{
+			text-align: center;
+		}
+		form{
+			width: 500px;
+			margin:0 auto;
+			padding:20px 0; 
+		}
+		table tr th{
+			font-weight: normal;
+		}
+		.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+			vertical-align:middle;
+		}
+	</style>
+</head>
+<body>
+	<include file="m/Ascore/header"/>
+	<table class="table table-bordered" align="center" style="width:50%">
+		<tr class="row">
+			<th class="success">公众号ID</th>
+			<th class="warning">公众号名称</th>
+			<th class="info">增减头条阅读</th>
+			<th class="success">日期</th>
+			<th class="warning">操作</th>
+		</tr>
+		<foreach name="arr" item="v" key="k">
+		<form action="save" method="post">
+			<tr class="row">
+				<td>
+					{$v.public_num}
+				</td>
+				<td>
+					{$v.public_name}
+				</td>
+				<td>
+				<if condition="$v.number eq NULL" > 
+				<input type="number" name="number"  value="0"  style="width:60px;height:24px;padding-left:10px"/>
+				<else/>
+					<input type="number" name="number"  value="{$v.number}" style="width:60px;height:24px;padding-left:10px"/>
+				</if>
+				</td>
+				<td>{$v.time}</td>
+				<td align="center" style="width:50px">
+					<input type="hidden" name="timestamp" value="{$v.timestamp}" />
+					<input type="hidden" name="public_num" value="{$v.public_num}" />
+					<input type="submit" value="修改"/>
+				</td>
+			</tr>
+		</form>
+		</foreach>
+	</table>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>口袋高校 薪资结算中心</title>
+	<link rel="stylesheet" type="text/css" href="http://static.pocketuniversity.cn/kdgx/DataSalary/publish/css/data.css">
+</head>
+<body>
+	<header>
+		<div class="head">
+			<h1>Pocket University Library</h1>
+			<p class="tittleInfo">快速、准确、便捷地查找搜索运营者信息<br>运营者日志收集详细的公众号信息</p>
+			<div class="searchBox">
+				<p class="search">
+					<input id="searchVal" type="text"  placeholder="2016.10.10">
+					<span class="searchIcon"></span>
+					<span class="infoBtn"></span>
+				</p>
+			</div>
+		</div>
+	</header>
+	<div class="tips fc">
+		<button  class="showAll fr" id="showAll">全部显示</button>
+		<ul class="fr">
+			<li style="border-left: 40px  solid rgba(153,217,234,.7);">有运营者</li>
+			<li style="border-left: 40px  solid rgba(153,217,234,.3);">无运营者</li>
+		</ul>
+	</div>
+	<div id="content">
+		<script id="tpl" type="text/x-handlebars-template">
+			<table >
+			
+				<tr class="tittle" style="height:50px;line-height: 50px;background: rgba(44,183,103,1);color:#fff; ">
+					
+					<th class="num" style="">序号</th>
+					<th class="time">日期</th>
+					<th class="warning">公众号名称</th>
+					<th class="info">发布数</th>
+					<th class="warning">总阅读数</th>
+					<th class="info">头条阅读</th>
+					<th class="warning">平均阅读</th>
+					<th class="info">最高阅读</th>
+					<th class="warning">总点赞数</th>
+					<th class="info">预计活跃粉丝</th>
+					<th class="info">昨日粉丝增减</th>
+					<th class="warning">口袋日榜指数</th>
+					<th class="original">是否原创</th>
+					<th class="illgal">是否违规</th>
+					<th class="mDay">日结算</th>
+				<!-- <th class="mMonthy">月结算</th> -->
+				</tr>
+			
+			{{#each data}}
+			{{#if id}}
+				{{#compare lead 1}}
+				<tr class="detail" style="text-align: center; background:rgba(153,217,234,.6);color:rgb(36,36,36)">
+					<td class="nameColor">{{id}}</td>
+					<td class="nameColor">{{y}}-{{m}}-{{d}}</td>
+					<td class="tdTime nameColor" style="display: none;">{{timestamp}}</td>
+					<td class="nameColor">
+						<span>{{public_name}}</span><br>
+						<span class="publicNum">{{public_num}}</span>
+					</td>
+					<td class="">{{article_count}}</td>
+					<td class="">{{article_clicks_count}}</td>
+					<td class="">{{article_clicks_count_top_line}}</td>
+					<td class="">{{avg_article_clicks_count}}</td>
+					<td class="">{{max_article_clicks_count}}</td>
+					<td class="">{{article_likes_count}}</td>
+					<td>{{fans}}</td>
+					<td class="changeFans">{{fanss}}</td>
+					<td>{{score}}</td>
+					<td>
+					{{#if public_num}}
+						{{#compare isoriginal 0}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0" selected="selected">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3" >原创文章</option>
+							    	<option value="1">未推文</option>
+							</select>
+						{{/compare}}
+						{{#compare isoriginal 1}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3">原创文章</option>
+							    	<option value="1" selected="selected">未推文</option>
+							</select>
+						{{/compare}}
+						{{#compare isoriginal 2}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2" selected="selected">非原创</option>
+							    	<option value="3" >原创文章</option>
+							    	<option value="1">未推文</option>
+							 </select>
+						{{/compare}}
+						{{#compare isoriginal 3}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3" selected="selected">原创文章</option>
+							    	<option value="1">未推文</option>
+							</select>
+						{{/compare}}
+						
+					{{/if}}
+					</td>
+					<td>
+					{{#if public_num}}
+						{{#compare isviolate 0}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6" selected="selected">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}	
+						{{#compare isviolate 5}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5" selected="selected">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 1}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1" selected="selected">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 2}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2" selected="selected">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 3}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3" selected="selected">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 4}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4" selected="selected">情况四</option>
+							</select>
+						{{/compare}}
+					{{/if}}
+					</td>
+					<td>
+					{{#if public_num}}
+						{{#compare ismoney 0}}
+							<select class="remittedMoney" id="{{public_num}}" style="" name="ismoney">
+								<option value="0" selected="selected">请选择类型</option>
+					    		<option value="2">奖金打款</option>
+					    		<option value="1">无奖金</option>
+							</select>
+							<button disabled class="payDayed" style="padding: 6px 24%;display:none;background:#2cb767;color:#eaeaea;border:0;">已打款</button>
+						{{/compare}}
+						{{#compare ismoney 2}}
+							<button disabled class="payDayed" style="padding: 6px 24%;display: inline-block;background:#2cb767;color:#eaeaea;border:0;">已打款</button>
+						{{/compare}}
+						{{#compare ismoney 1}}
+							<select class="remittedMoney" id="{{public_num}}" style="" name="ismoney">
+								<option value="0">请选择类型</option>
+					    		<option value="2" >奖金打款</option>
+					    		<option value="1" selected="selected">无奖金</option>
+							</select>
+							<button disabled class="payDayed" style="padding: 6px 24%;display:none;background:#2cb767;color:#eaeaea;border:0;">已打款</button>
+						{{/compare}}
+					{{/if}} 
+					</td>
+					<!-- <td>
+					{{#if public_num}}
+					{{#compare ismoney_m 0}}
+						<button class="payMonth"  id="M_{{public_num}}">月结算</button>
+						<button disabled style="padding: 2px 5px;display: none;">月结算</button>	
+					{{/compare}}
+					{{#compare ismoney_m 1}}
+						<button disabled style="padding: 2px 5px;display:inline-block;">月结算</button>	
+					{{/compare}}
+					{{/if}}
+					</td> -->
+				</tr>
+				{{/compare}}
+				{{#compare lead null}}
+				<tr class="detail unshow" style="text-align: center; background:rgba(153,217,234,.3);">
+					<td class="nameColor">{{id}}</td>
+					<td class="nameColor">{{y}}-{{m}}-{{d}}</td>
+					<td class="tdTime nameColor" style="display: none;">{{timestamp}}</td>
+					<td class="nameColor">
+						<span>{{public_name}}</span><br>
+						<span class="publicNum">{{public_num}}</span>
+					</td>
+					<td class="">{{article_count}}</td>
+					<td class="">{{article_clicks_count}}</td>
+					<td class="">{{article_clicks_count_top_line}}</td>
+					<td class="">{{avg_article_clicks_count}}</td>
+					<td class="">{{max_article_clicks_count}}</td>
+					<td class="">{{article_likes_count}}</td>
+					<td>{{fans}}</td>
+					<td class="changeFans">{{fanss}}</td>
+					<td>{{score}}</td>
+					<td>
+					{{#if public_num}}
+						{{#compare isoriginal 0}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0" selected="selected">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3" >原创文章</option>
+							    	<option value="1">未推文</option>
+							</select>
+						{{/compare}}
+						{{#compare isoriginal 2}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2" selected="selected">非原创</option>
+							    	<option value="3" >原创文章</option>
+							    	<option value="1">未推文</option>
+							 </select>
+						{{/compare}}
+						{{#compare isoriginal 3}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3" selected="selected">原创文章</option>
+							    	<option value="1">未推文</option>
+							</select>
+						{{/compare}}
+						{{#compare isoriginal 1}}
+							<select class="noAtical" name="isoriginal" id="original_{{public_num}}">
+									<option value="0">请选择类型</option>
+									<option value="2">非原创</option>
+							    	<option value="3">原创文章</option>
+							    	<option value="1" selected="selected">未推文</option>
+							</select>
+						{{/compare}}
+					{{/if}}
+					</td>
+					<td>
+					{{#if public_num}}
+						{{#compare isviolate 0}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6" selected="selected">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}	
+						{{#compare isviolate 5}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5" selected="selected">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 1}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1" selected="selected">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 2}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2" selected="selected">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 3}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3" selected="selected">情况三</option>
+								<option value="4">情况四</option>
+							</select>
+						{{/compare}}
+						{{#compare isviolate 4}}
+							<select class="illgalBehavior" id="illgalBehavior_{{public_num}}" name="isviolate">
+								<option value="6">请选择类型</option>
+								<option value="5">未违规</option>
+								<option value="1">情况一</option>
+								<option value="2">情况二</option>
+								<option value="3">情况三</option>
+								<option value="4" selected="selected">情况四</option>
+							</select>
+						{{/compare}}
+					{{/if}}
+					</td>
+					<td>
+					{{#if public_num}}
+						{{#compare ismoney 0}}
+							<select class="remittedMoney" id="{{public_num}}" style="" name="ismoney">
+								<option value="0" selected="selected">请选择类型</option>
+					    		<option value="2">奖金打款</option>
+					    		<option value="1">无奖金</option>
+							</select>
+							<button disabled class="payDayed" style="padding: 2px 15%;display: none;">已打款</button>
+						{{/compare}}
+						{{#compare ismoney 2}}
+							<button disabled class="payDayed" style="padding: 2px 15%;display: inline-block;">已打款</button>
+						{{/compare}}
+						{{#compare ismoney 1}}
+							<select class="remittedMoney" id="{{public_num}}" style="" name="ismoney">
+								<option value="0">请选择类型</option>
+					    		<option value="2" >奖金打款</option>
+					    		<option value="1" selected="selected">无奖金</option>
+							</select>
+							<button disabled class="payDayed" style="padding: 2px 15%;	display: none;">已打款</button>
+						{{/compare}}
+					{{/if}} 
+					</td>
+					<!-- <td>
+					{{#if public_num}}
+					{{#compare ismoney_m 0}}
+						<button class="payMonth"  id="M_{{public_num}}">月结算</button>
+						<button disabled style="padding: 2px 5px;display: none;">月结算</button>	
+					{{/compare}}
+					{{#compare ismoney_m 1}}
+						<button disabled style="padding: 2px 5px;display:inline-block;">月结算</button>	
+					{{/compare}}
+					{{/if}}
+					</td> -->
+				</tr>
+				{{/compare}}
+			{{/if}}
+			<div class="pop-up">
+				<div class="M-day" id="M-day_{{public_num}}">
+					<div class="cancelIcon" id="cancelIcon_{{public_num}}"></div>
+					<h2>口袋高校每日结算明细</h2>
+					<div class="firstTittle">
+						<ul class="fc">
+							<li class="dayTime0" style="display: none;">{{timestamp}}</li>
+							<li class="dayTime fl">{{y}}-{{m}}-{{d}}</li>
+							<li>
+								<span class="name">运营者：<span>{{name}}</span></span>
+								<span class="category">试用期</span>
+							</li>
+							<li class="fr dayPublic"><span>{{public_name}}</span><span class="dayPublicNum">{{public_num}}</span></li>
+						</ul>
+					</div>
+					<div class="secondTittle">
+						<ul class="fc">
+							<li><span>本月更新：<span class="monthUpdate">{{update}}</span>次</span></li>
+							<li><span>本月违规：<span class="monthIllgal">{{violate}}</span>次</span></li>
+							<li><span>本月收益：<span class="monthEarnings">{{monthwage}}</span>￥</span></li>
+							<li class="fr"><span>累计收益：<span class="addEarnings">{{wage}}</span>￥</span></li>
+						</ul>
+					</div>
+					<div class="M-detail">
+						<div>
+							<p><span>单日文章奖金：<input class="dayAticalPay"  id="dayAticalPay_{{public_num}}" type="number">￥</span></p>
+							<p>
+								口袋指数：<span class="pocketPoint"></span>;参考奖金额度<span>22</span>
+							</p>
+						</div>
+						<div>
+							<p><span>专享单篇奖金：<input class="singleAtical" type="number" id="singleAtical_{{public_num}}">￥</span></p>
+							<p>
+								专享第<span class="tittleNum"></span>篇文章;参考奖金额度<span>0￥</span>
+							</p>
+						</div>
+						<div>
+							<p><span>归还罚款：<input type="number" class="returnFine" id="returnFine_{{public_num}}">￥</span></p>
+							<p>
+								当前罚款累计：<span class="addIllgalPay">30￥</span>;未还罚款金额<span>10￥</span>
+							</p>
+						</div>
+					</div>
+					<div class="remark">
+						<div class="fl">
+							<span>备注：</span>
+							<textarea class="remarkText" placeholder="请输入你想对运营者说的话！"></textarea>
+						</div>
+						<div class="fr">
+							<span>本日实发：<span class="dayActualPay" id="dayActualPay_{{public_num}}">0</span>￥</span><br>
+							<button class="D-confirmPay" id="D-confirmPay_{{public_num}}">确定打款</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="M-month" id="month_M_{{public_num}}">
+					<div class="cancelIcon"></div>
+					<h2>口袋高校每月结算明细</h2>
+					<div class="firstTittle">
+						<ul class="fc">
+							<li class="dayTime0" style="display: none;">{{timestamp}}</li>
+							<li class="fl">{{y}}-{{m}}-{{d}}</li>
+							<li>
+								<span class="name">运营者：{{name}}</span>
+								<span class="category">试用期</span>
+							</li>
+							<li class="fr"><span>{{public_name}}</span><span class="dayPublicNum">{{public_num}}</span></li>
+						</ul>
+					</div>
+					<div class="secondTittle">
+						<ul class="fc">
+							<li><span>本月更新：<span class="monthUpdate">13</span>次</span></li>
+							<li><span>本月违规：<span class="monthIllgal">{{violate}}</span>次</span></li>
+							<li><span>本月收益：<span class="monthEarnings">{{monthwage}}</span>￥</span></li>
+							<li class="fr"><span>累计收益：<span class="addEarnings">{{wage}}</span>￥</span></li>
+						</ul>
+					</div>
+					<div class="M-detail">
+						<div>
+							<p><span class="monthPay">当月底薪金额：<input type="number" id="salary_M_{{public_num}}">￥</span></p>
+							<p>
+								口袋指数：<span class="monthPoint"></span>;&nbsp&nbsp参考奖金额度<span></span>
+							</p>
+						</div>
+						<div>
+							<p><span>当月冲榜奖金：<input type="number" id="rank_M_{{public_num}}">￥</span></p>
+							<p>
+								当月口袋高校排名<span class="rankNum"></span>名;&nbsp&nbsp参考奖金额度<span></span>
+							</p>
+						</div>
+						<div class="reward">
+							<p><span>当月酬勤奖金：<input type="number" id="reward_M_{{public_num}}">￥</span></p>
+							<p>
+								当月累计更新<span class="tittleNum"></span>次;&nbsp&nbsp参考奖金额度<span></span>
+							</p>
+						</div>
+
+						<div class="littleUpdate">
+							<p><span>罚款：<input type="number" id="littleUpdate_M_{{public_num}}">￥</span></p>
+							<p>
+								当月更新次：<span class="littleNum"></span>;&nbsp&nbsp参考罚款额度<span>50￥</span>
+							</p>
+							<p class="severity" style="font-size: 20px;color: rgba(238,179,70,.6);display:none;">
+							    该运营者上月出现使用第三方软件恶意刷量的情况，建议扣除上月所有奖金！！!</p>
+							
+						</div>
+						<div>
+							<p><span>归还罚款：<input type="number" id="returnFine_M_{{public_num}}">￥</span></p>
+							<p>
+								当前罚款累计：<span class="monthFine"></span>;&nbsp&nbsp未还罚款金额<span></span>
+							</p>
+						</div>
+					</div>
+					<div class="remark">
+						<div class="fl">
+							<span>备注：</span>
+							<textarea class="remarkText" placeholder="请输入你想对运营者说的话！"></textarea>
+						</div>
+						<div class="fr">
+							<span>本月实发：<span class="monActualPay" id="actualPay_M_{{public_num}}"></span>￥</span><br>
+							<button class="M-confirmPay">确定打款</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="M-illgal" id="M-illgal_illgalBehavior_{{public_num}}">
+					<div class="cancelIcon"></div>
+					<h2>口袋高校违规操作处罚明细</h2>
+					<ul>
+						<li class="firstTit">
+							情况一：未按区域负责人指定任务更新公众号文章
+						</li>
+						<li class="secondTi">
+							情况二：月更新次数低于最低标准
+						</li>
+						<li class="thirdTi">
+							情况三：私自更改口袋高校公众号按钮菜单
+						</li>
+						<li class="fourthTi">
+							情况四：使用第三方软件而已刷量
+						</li>
+					</ul>
+					<div class="M-detail">
+						<div>
+							<p><span>处罚金额：<input type="number">￥</span></p>
+							<div>
+								<p class="first">情况一出现累计：
+									<span class="addTimes"></span>次;&nbsp&nbsp参考罚金额度:
+									<span></span>
+								</p>
+								<p class="second">
+									该类情况请在月结算时清算！
+								</p>
+								<p class="third">情况三出现累计：
+									<span class="addTimes"></span>次;&nbsp&nbsp参考罚金额度:
+									<span></span>
+								</p>
+								<p class="fourth">
+									建议扣除当月所以奖金！
+								</p>
+							</div>
+						</div>
+					</div>
+					<button class="cancel">取消</button>
+					<button class="confirmation">确认</button>
+				</div>
+			</div>
+			{{/each}}
+			</table>
+		</script> 
+	</div>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+	<script src="http://cdn.bootcss.com/handlebars.js/4.0.5/handlebars.js"></script>
+	<script type="text/javascript" src='http://static.pocketuniversity.cn/kdgx/DataSalary/publish/js/jquery.min.js'></script>
+	<script type="text/javascript" src="http://static.pocketuniversity.cn/kdgx/DataSalary/publish/js/data.js"></script>
+</body>
+</html>

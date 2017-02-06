@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>意见收集</title>
+</head>
+<body>
+	<foreach name='data' item='value'>
+		<div style="border:2px red solid; margin-top:5px;">
+		<p>提交人:{$value['name']}</p>
+		<p>提交意见:{$value['commit']}</p>
+		</div>
+	</foreach>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?php 
+namespace Common\Controller;
+use Think\Controller;
+/**
+ * Home模块的基类
+ */
+class HomeBaseController extends Controller{
+
+	//初始化方法
+	public function __construct(){
+		parent::__construct();
+		// echo CONTROLLER_NAME, ACTION_NAME;
+		$log = "\r\n" . '-----------------------------------------------------------' . "\r\n";
+		$log .= CONTROLLER_NAME;
+		file_put_contents('./Logs/monitor.log', $log,FILE_APPEND);
+		// exit;
+		C('DEFAULT_THEME','m');
+		if(MODULE_NAME=='Home' && CONTROLLER_NAME=='Index' && ACTION_NAME=='index'){	
+			if (ismobile()) {
+	            C('DEFAULT_THEME','m');
+	        }else{
+	        	C('DEFAULT_THEME','c');
+	        }
+		}
+	}
+
+}

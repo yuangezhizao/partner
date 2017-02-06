@@ -1,0 +1,1 @@
+a:4:{i:0;s:11:"province_id";i:1;s:13:"province_name";s:3:"_pk";s:11:"province_id";s:5:"_type";a:2:{s:11:"province_id";s:6:"int(4)";s:13:"province_name";s:10:"varchar(8)";}}

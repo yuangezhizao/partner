@@ -1,0 +1,1 @@
+a:6:{i:0;s:2:"id";i:1;s:8:"media_id";i:2;s:7:"partner";i:3;s:3:"tag";s:3:"_pk";s:2:"id";s:5:"_type";a:4:{s:2:"id";s:6:"int(8)";s:8:"media_id";s:11:"varchar(16)";s:7:"partner";s:6:"int(8)";s:3:"tag";s:13:"enum('0','1')";}}

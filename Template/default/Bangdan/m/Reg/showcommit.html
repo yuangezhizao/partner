@@ -1,0 +1,50 @@
+<html>
+<head>
+<title></title>
+<style type="text/css">
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+</head>
+<body>
+	<table class="gridtable" align="center" width="90%">
+	<tr>联盟报名信息表</tr>
+	<hr>
+		<tr>
+			<th>编号</th><th>姓名</th><th>电话</th><th>微信号</th><th>学校</th><th>平台</th><th>粉丝数</th>
+		</tr>
+		<foreach name='data' item='value' >
+		<tr>
+			<td>{$value['id']}</td>
+			<td>{$value['name']}</td>
+			<td>{$value['phone']}</td>
+			<td>{$value['wechat']}</td>
+			<td>{$value['school']}</td>
+			<td>{$value['plat']}</td>
+			<td>{$value['fans']}</td>
+		</tr>
+		</foreach>
+	</table>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<?php 
+return array(
+
+	'PARTNER_API_KEY' => '64DC7E8A01FED4F1',	//卖室友应用程序的KEY
+	'PARTNER_API_SECRET'	=> 'FCC9FD3AD429F5B031F4CB2B7E3CEE67',	//卖室友应用的apiSecret
+);

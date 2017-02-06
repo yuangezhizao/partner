@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name = "format-detection" content="telephone=no">
+    <meta name="description" content="口袋高校，大学生内容创业服务平台专注打造高校新媒体矩阵，最具性价比的校园营销渠道">
+    <meta name="description" content="口袋高校，隶属于苏州扶摇信息科技有限公司，是国内领先新媒体运营机构，专注于全国高校新媒体运营和发展。公司旗下拥有近百个矩阵式高校新媒体账号，高校数量及用户数量每天都在稳步上增。口袋高校旗下有“口袋”“微在”及“圈圈”三大校园微信品牌，得天独厚的的高校新媒体资源是开展各项业务的保证，我们希望并将带领全国众多大学生新媒体运营者一起迈向“低成本小型创业”之路。">
+    <meta name="keyword" content="口袋, 口袋高校, 内容创业服务平台">
+    <title>口袋高校</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.0.1/weui.min.css">
+    <link rel="stylesheet" href="http://www.pocketuniversity.cn/static/share/collect_css/look.css">
+  </head>
+  <body>
+    <div class="page <?php if($data['sex']==0){echo 'man-color';?>
+                <?php }else{ echo 'girl-color';?>
+                <?php }?>
+                ">
+        <!-- header  -->
+        <div class="header">
+          <img id="photo_src" src="http://{$data['photo_src']}" alt="" />
+          <div class="head-mask">
+
+          </div>
+        </div>
+        <!-- header end -->
+
+        <!-- infomation -->
+        <div class="info-box">
+            <div class="weui-cells__title">个人信息</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>姓名</p>
+                    </div>
+                    <div id="name" class="weui-cell__ft">{$data['name']}</div>
+                </div>
+                <a class="weui-cell" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>学校</p>
+                    </div>
+                    <div id="school" class="weui-cell__ft">{$data['school']}</div>
+                </a>
+                <a class="weui-cell" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>专业</p>
+                    </div>
+                    <div id="subject" class="weui-cell__ft">{$data['subject']}</div>
+                </a>
+                <a class="weui-cell" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>年级</p>
+                    </div>
+                    <div id="grade" class="weui-cell__ft">{$data['grade']}</div>
+                </a>
+                <!-- 星座 -->
+                <a class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p>星座</p>
+                    </div>
+                    <div id="star" class="weui-cell__ft">{$data['star']}</div>
+                </a>
+                <!-- 星座 -->
+                <!-- 联系方式 -->
+                <a class="weui-cell">
+                    <div id="contype" class="weui-cell__bd">
+                        <p>{$data['contype']}</p>
+                    </div>
+                    <div id="contact" class="weui-cell__ft">{$data['contact']}</div>
+                </a>
+                <!-- 联系方式 -->
+            </div>
+        </div>
+        <!-- infomation -->
+
+        <!-- self des -->
+        <div class="self-box">
+            <div class="weui-cells__title">自我描述</div>
+            <div class="textarea-cell weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p id="introduce" style="min-height:25px" class="weui-textarea">
+                        {$data['introduce']}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- self des -->
+
+        <!-- wish -->
+        <div class="self-box">
+            <div class="weui-cells__title">对另一半的期望</div>
+            <div class="textarea-cell weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <!-- <textarea id="expect" class="weui-textarea" placeholder="你期待的另一半是什么样的？" rows="3"></textarea> -->
+                        <p id="expect" style="min-height:25px" class="weui-textarea">
+                        {$data['expect']}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- wish -->
+
+        <!-- bottom btn -->
+        <div class="opear-btn-box">
+          <a id="share" class="confirm-btn btn weui-btn">点击收藏</a>
+        </div>
+        <!-- bottom btn -->
+
+        <div class="mask" style="font-size: 15px">
+          <img src="http://www.pocketuniversity.cn/static/share/img/collect.png" alt="" />
+          <p>
+            戳一下右上角 <span style="font-size:12px">···</span><br>
+            点击 收藏 就好啦！
+          </p>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+  </body>
+  <script>
+    var bodyWidth = document.querySelector('body').offsetWidth
+    var bodyHeight = document.querySelector('body').offsetHeight
+    var scaleRatio = bodyWidth/320
+    document.querySelector('html').style.fontSize = 100 * scaleRatio + 'px'
+  </script>
+  <script>
+    document.querySelector('#share').onclick = function () {
+      document.querySelector('.mask').style.display = 'block'
+      setTimeout(function () {
+        document.querySelector('.mask').style.display = 'none'
+      }, 3000)
+    }
+  </script>
+</html>

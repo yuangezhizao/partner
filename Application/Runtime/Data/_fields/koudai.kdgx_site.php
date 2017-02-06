@@ -1,0 +1,1 @@
+a:5:{i:0;s:7:"site_id";i:1;s:4:"name";i:2;s:7:"area_id";s:3:"_pk";s:7:"site_id";s:5:"_type";a:3:{s:7:"site_id";s:6:"int(8)";s:4:"name";s:11:"varchar(16)";s:7:"area_id";s:6:"int(8)";}}

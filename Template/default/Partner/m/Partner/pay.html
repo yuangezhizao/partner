@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会员中心</title>
+    <!-- <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/lib/css/reset.css"> -->
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
+    <link rel="stylesheet" href="http://static.pocketuniversity.cn/kdgx/roommatevip/css/vip.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- header -->
+        <header>
+            <p class="title">
+                会员中心
+            </p>
+            <div class="head-img">
+                <img src="http://static.pocketuniversity.cn/kdgx/lib/commonimg/danmuhudong.jpg" alt="">
+            </div>
+            <div class="user-info">
+                <p class="user-name">杜渊</p>
+                <p class="user-school">杭州电子科技大学</p>
+            </div>
+
+            <div class="vip">
+                <img v-show="!isVip" src="./images/notvip.png" alt="">
+                <img v-show="isVip" src="./images/vip.png" alt="">
+                <p class="rest-times">
+                    剩余查询次数:5次
+                </p>
+            </div>
+        </header>
+        <!-- header -->
+
+        <!-- body -->
+        <div class="container">
+            <div class="vip-time">
+                <span>会员大大，您的会员期限还剩<span class="day">19天</span>，欢迎续订</span>
+            </div>
+            <ul>
+                <li class="item" data-price="19" @click="chooseGoods">
+                    <p class="item-num number">1</p>
+                    <p class="item-desc">
+                        <span class="desc-title">1个月</span>
+                        <span class="desc-sub-title">每天6次</span>
+                    </p>
+                    <p class="item-money number">￥19</p>
+                </li>
+                <li class="item" data-price="29" @click="chooseGoods">
+                    <p class="item-num number">2</p>
+                    <p class="item-desc">
+                        <span class="desc-title">2个月</span>
+                        <span class="desc-sub-title">每天6次</span>
+                    </p>
+                    <p class="item-money number">￥29</p>
+                </li>
+                <li class="item" data-price="39" @click="chooseGoods">
+                    <p class="item-num number">3</p>
+                    <p class="item-desc">
+                        <span class="desc-title">3个月</span>
+                        <span class="desc-sub-title">每天6次</span>
+                    </p>
+                    <p class="item-money number">￥39</p>
+                </li>
+                <li class="item" data-price="1" @click="chooseGoods">
+                    <p class="item-num number">4</p>
+                    <p class="item-desc">
+                        <span class="desc-title">单次</span>
+                        <span class="desc-sub-title">每天6次</span>
+                    </p>
+                    <p class="item-money number">￥1</p>
+                </li>
+            </ul>
+        </div>
+        <!-- body -->
+
+        <!-- footer -->
+        <footer>
+            <div class="pay-box">
+                <div class="price">
+                    总价：￥{{price}}
+                </div>
+                <a class="pay">
+                    支付
+                </a>
+            </div>
+        </footer>
+        <!-- footer -->
+    </div>
+
+    <!-- 弹出层 -->
+    <div class="js_dialog" id="pay_uncompleted" style="display:none;font-size:15px;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">未支付</strong></div>
+            <div class="weui-dialog__bd">尚未支付成功，或支付状态未更新，点击重新支付，或稍后再试</div>
+            <div class="weui-dialog__ft">
+                <a class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                <a class="weui-dialog__btn weui-dialog__btn_primary">重新支付</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成功提示 -->
+<div class="page msg_success js_show" style="font-size:15px;display:none">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="tip weui-msg__title">恭喜，获得一次额外的查询次数</h2>
+            <p class="sub-tip weui-msg__desc">点击继续之前操作或者退出</p>
+        </div>
+        <div class="opera-area weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a class="opera-btn weui-btn weui-btn_primary" style="background-color:RGB(60,179,96)">继续</a>
+                <a class="opera-btn weui-btn weui-btn_default">隐藏</a>
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.pocketuniversity.cn" class="weui-footer__link">口袋高校</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2014-2016 pocketuniversity.cn</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 扫码进群 -->
+    <div class="qrcode">
+        <img src="http://static.pocketuniversity.cn/kdgx/lib/commonimg/danmuhudong.jpg" alt="">
+        <p>长按扫码，拉你进会员专属vip社群</p>
+    </div>
+    <!-- 扫码进群 -->
+</div>
+    <!-- 成功提示 -->
+</body>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://static.pocketuniversity.cn/kdgx/lib/utils/utils-1.1.0.js"></script>
+<script src="http://static.pocketuniversity.cn/kdgx/roommatevip/js/vue.js"></script>
+<script src="http://static.pocketuniversity.cn/kdgx/roommatevip/js/vip.js"></script>
+<script>
+    wx.config({
+            debug: false,
+            appId: '<?php echo $jssdkapi['appId']; ?>',
+            timestamp: '<?php echo $jssdkapi['timestamp']; ?>',
+            nonceStr: '<?php echo $jssdkapi['nonceStr']; ?>',
+            signature: '<?php echo $jssdkapi['signature']; ?>',
+            jsApiList: [
+              'chooseWXPay'
+            ]
+        })
+    _kd.$('.pay').onclick = function () {
+        wx.chooseWXPay({
+            timestamp: '<?php echo $jsApiParameters['timestamp']; ?>', // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: '<?php echo $jsApiParameters['nonceStr'];?>', // 支付签名随机串，不长于 32 位
+            package: '<?php echo $jsApiParameters['package']; ?>', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: '<?php echo $jsApiParameters['signType']; ?>', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: '<?php echo $jsApiParameters['paySign']; ?>', // 支付签名
+            success: function (res) {
+                alert('pay success')
+            }
+        });
+    }
+</script>
+</html>

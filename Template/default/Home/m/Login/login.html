@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+<style>
+form {
+width:80%;
+margin:100px auto;
+}
+</style>
+</head>
+<body>
+    <div id="main">
+        <div id="respond" class="comment-respond">
+            <form action="{:U('Login/login')}" method="post">
+                <p>
+                <input placeholder="用户名" name="username" type="text" value="" size="30">
+                </p>
+                <p>
+                <input placeholder="密码" name="password" type="text" value="" size="30">
+                </p>
+                <input type="submit" value="登陆">
+            </p>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=59591163" charset="UTF-8"></script>
+</body>
+</html>

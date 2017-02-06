@@ -1,0 +1,1 @@
+a:8:{i:0;s:2:"id";i:1;s:9:"module_id";i:2;s:13:"response_time";i:3;s:3:"uid";i:4;s:10:"request_id";i:5;s:12:"request_from";s:3:"_pk";s:2:"id";s:5:"_type";a:6:{s:2:"id";s:6:"int(8)";s:9:"module_id";s:11:"smallint(4)";s:13:"response_time";s:7:"int(11)";s:3:"uid";s:6:"int(8)";s:10:"request_id";s:6:"int(4)";s:12:"request_from";s:11:"varchar(64)";}}
